@@ -11,7 +11,6 @@ import { PacientesService } from 'src/app/services/pacientes.service';
 import { TipoService } from 'src/app/services/tipo.service';
 import { environment } from 'src/environments/environment';
 import Swal from 'sweetalert2';
-import * as moment from 'moment';
 
 @Component({
   selector: 'app-historiales',
@@ -287,6 +286,7 @@ export class HistorialesComponent implements OnInit {
   }
 
   cargarConsulta(fecha: any, idConsulta: number, consulta: Consulta, index: number) {
+    const moment = require('moment-timezone');
     let fechaConsulta = moment(consulta.fecha).locale('es').format('LL');
     const opciones: any = { year: 'numeric', month: 'long', day: 'numeric' };
     const fechaComputador = moment();
@@ -333,6 +333,7 @@ export class HistorialesComponent implements OnInit {
   }
 
   imprimirPdf(fecha: any, idConsulta: number, consulta: Consulta, index: number) {
+    const moment = require('moment-timezone');
     this.consultaActual = consulta;
     this.numeroConsultaActual = consulta.total - index;
     let fechaConsulta = moment(consulta.fecha).locale('es').format('LL');

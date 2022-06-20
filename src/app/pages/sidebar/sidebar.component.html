@@ -4,25 +4,49 @@
 >
   <div class="pt-3 pl-3 py-1 cursor-pointer">
     <a
-      class="flex items-center text-2xl font-semibold active-nav-link text-white nav-item cursor-pointer py-1 hover:text-yellow-400 hover:translate-x-4 transition duration-300 ease-in-out max-w-min"
+      class="flex items-center text-xl font-semibold active-nav-link text-white nav-item cursor-pointer py-1 hover:text-yellow-400 hover:translate-x-4 transition duration-300 ease-in-out max-w-min"
       id="sidebuttonusuario"
       (click)="changeComponent('pages/Dashboard', 'usuario')"
     >
       <i class="fas fa-user-alt mr-3"></i>{{ this.nombreRol }}
     </a>
   </div>
-  <nav class="text-white text-base font-semibold pt-2 ml-2">
-    <a
-      *ngFor="let element of sidebar"
-      (click)="changeComponent(element.url, element.id)"
-      id="sidebutton{{ element.id }}"
-      class="flex items-center active-nav-link text-white nav-item cursor-pointer py-1 hover:text-yellow-400 hover:scale-105 transition duration-300 ease-in-out max-w-min"
-      ><i class="{{ element.icono }} mx-3"></i>
-      {{ element.nombre }}
-    </a>
+  <nav class="text-white text-base font-semibold pt-2">
+    <div *ngFor="let element of sidebar">
+      <a
+        *ngIf="element.nombre != 'Configuracion'"
+        (click)="changeComponent(element.url, element.id)"
+        id="sidebutton{{ element.id }}"
+        class="flex items-center active-nav-link pl-2 text-white nav-item cursor-pointer py-1 hover:text-yellow-400 hover:scale-105 transition duration-300 ease-in-out max-w-min"
+        ><i class="{{ element.icono }} mx-3"></i>
+        {{ element.nombre }}
+      </a>
+      <a
+        *ngIf="element.nombre == 'Configuracion'"
+        (click)="openMenu(element.id)"
+        id="sidebutton{{ element.id }}"
+        class="flex items-center pl-2 active-nav-link text-white nav-item cursor-pointer py-1 hover:text-yellow-400 hover:scale-105 transition duration-300 ease-in-out max-w-min"
+        ><i class="{{ element.icono }} mx-3"></i>
+        Configuración&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <i id="arrow" class="fas fa-angle-right"></i>
+      </a>
+      <div class="overflow-hidden bg-sky-600 pl-2">
+        <div *ngFor="let subelement of element.submenus">
+          <a
+            *ngIf="menuConfiguracionesAbierto == true"
+            (click)="changeComponent(subelement.url, subelement.subId)"
+            id="sidebutton{{ subelement.subId }}"
+            class="flex items-center active-nav-link text-white nav-item cursor-pointer py-1 hover:text-yellow-400 hover:scale-105 transition duration-300 ease-in-out animate-top-to-down max-w-min"
+            >&nbsp;&nbsp;&nbsp;&nbsp;<i class="{{ subelement.icono }} mx-3"></i>
+            {{ subelement.nombre }}
+          </a>
+        </div>
+      </div>
+    </div>
+    <div></div>
     <a
       (click)="Logout()"
-      class="flex items-center active-nav-link text-white nav-item cursor-pointer py-1 hover:text-yellow-400 hover:scale-105 transition duration-300 ease-in-out max-w-min"
+      class="flex items-center pl-2 active-nav-link text-white nav-item cursor-pointer py-1 hover:text-yellow-400 hover:scale-105 transition duration-300 ease-in-out max-w-min"
       ><i class="fa fa-sign-out mx-3"></i>Salir
     </a>
   </nav>
@@ -39,19 +63,39 @@
       <i class="fas fa-user-alt mr-3"></i>{{ this.nombreRol }}
     </a>
   </div>
-  <nav class="text-white text-base font-semibold pb-1 px-1">
-    <div>
+  <nav class="text-white text-base font-semibold pb-1">
+    <div *ngFor="let element of sidebar">
       <a
-        *ngFor="let element of sidebar"
+        *ngIf="element.nombre != 'Configuracion'"
         routerLink="{{ element.url }}"
-        class="flex items-center active-nav-link text-white nav-item hover:text-yellow-400 hover:scale-105 transition duration-300 ease-in-out max-w-min"
+        class="flex items-center active-nav-link pl-2 text-white nav-item hover:text-yellow-400 hover:scale-105 transition duration-300 ease-in-out max-w-min"
         ><i class="{{ element.icono }} mr-3"></i>{{ element.nombre }}
       </a>
+      <a
+        *ngIf="element.nombre == 'Configuracion'"
+        (click)="openMenu(element.id)"
+        class="flex items-center pl-2 active-nav-link text-white nav-item hover:text-yellow-400 hover:scale-105 transition duration-300 ease-in-out max-w-min"
+        ><i class="{{ element.icono }} mr-3"></i
+        >Configuración&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <i id="arrowMobile" class="fas fa-angle-right"></i>
+      </a>
+      <div class="overflow-hidden bg-sky-600 pl-2">
+        <div *ngFor="let subelement of element.submenus">
+          <a
+            *ngIf="menuConfiguracionesAbierto == true"
+            (click)="changeComponent(subelement.url, subelement.subId)"
+            id="sidebutton{{ subelement.subId }}"
+            class="flex items-center active-nav-link text-white nav-item cursor-pointer py-1 hover:text-yellow-400 hover:scale-105 transition duration-300 ease-in-out animate-top-to-down max-w-min"
+            >&nbsp;&nbsp;&nbsp;&nbsp;<i class="{{ subelement.icono }} mx-3"></i>
+            {{ subelement.nombre }}
+          </a>
+        </div>
+      </div>
     </div>
     <div>
       <a
         (click)="Logout()"
-        class="flex items-center active-nav-link text-white nav-item cursor-pointer hover:text-yellow-400 hover:scale-105 transition duration-300 ease-in-out max-w-min"
+        class="flex items-center pl-2 active-nav-link text-white nav-item cursor-pointer hover:text-yellow-400 hover:scale-105 transition duration-300 ease-in-out max-w-min"
         ><i class="fa fa-sign-out mr-3"></i>Salir
       </a>
     </div>
