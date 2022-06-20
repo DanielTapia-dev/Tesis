@@ -1,0 +1,92 @@
+export interface Consulta {
+    id: number;
+    id_historia_per: number;
+    peso: string;
+    talla: string;
+    imc: string;
+    prsist: string;
+    prdist: string;
+    temp: string;
+    fc: string;
+    sat: string;
+    fr: string;
+    observacion_signos: string;
+    motivo_atencion: string;
+    enfermedad_actual: string;
+    antecedentes: string;
+    examen_fisico: string;
+    resultados_examenes: string;
+    codigo_cie10_per: string;
+    tratamiento: string;
+    id_cronologia_per: number;
+    id_condicion_per: number;
+    id_tipo_per: number;
+    id_empleado_per: string;
+    estado: boolean;
+    fecha: string;
+    empleado: string;
+    total: number;
+    descripcion: string;
+}
+
+export class ConsultaModel {
+    id: number;
+    id_historia_per: number;
+    peso: string;
+    talla: string;
+    imc: string;
+    prsist: string;
+    prdist: string;
+    temp: string;
+    fc: string;
+    sat: string;
+    fr: string;
+    observacion_signos: string;
+    motivo_atencion: string;
+    enfermedad_actual: string;
+    antecedentes: string;
+    examen_fisico: string;
+    resultados_examenes: string;
+    codigo_cie10_per: string;
+    tratamiento: string;
+    id_cronologia_per: number;
+    id_condicion_per: number;
+    id_tipo_per: number;
+    id_empleado_per: string;
+    estado: boolean;
+    fecha: string;
+    empleado: string;
+    total: number;
+    descripcion: string;
+
+    constructor() {
+        this.id = 0;
+        this.id_historia_per = 0;
+        this.peso = '';
+        this.talla = '';
+        this.imc = '';
+        this.prsist = '';
+        this.prdist = '';
+        this.temp = '';
+        this.fc = '';
+        this.sat = '';
+        this.fr = '';
+        this.observacion_signos = '';
+        this.motivo_atencion = '';
+        this.enfermedad_actual = '';
+        this.antecedentes = '';
+        this.examen_fisico = '';
+        this.resultados_examenes = '';
+        this.codigo_cie10_per = '';
+        this.tratamiento = '';
+        this.id_cronologia_per = 0;
+        this.id_condicion_per = 0;
+        this.id_tipo_per = 0;
+        this.id_empleado_per = '';
+        this.estado = true;
+        this.fecha = '';
+        this.empleado = '';
+        this.total = 0;
+        this.descripcion = '';
+    }
+}
