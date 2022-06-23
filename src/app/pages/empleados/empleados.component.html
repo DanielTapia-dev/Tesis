@@ -1,1 +1,227 @@
-<p>empleados works!</p>
+<div class="overflow-hidden">
+  <div class="flex flex-col">
+    <p class="text-blue-900 font-semibold text-lg ml-2">>Empleados</p>
+    <form
+      (ngSubmit)="guardar()"
+      autocomplete="off"
+      [formGroup]="empleadoFormulario"
+    >
+      <div
+        class="flex flex-col md:flex-row border border-l bg-white rounded-lg drop-shadow-lg shadow-black border-gray-300 mx-2"
+      >
+        <div
+          class="flex flex-col justify-center items-center mt-2 md:mb-2 px-4"
+        >
+          <div class="flex flex-row justify-start w-full">
+            <p class="font-semibold">Imagen de perfil</p>
+          </div>
+          <a *ngIf="imagenSubir == ''" class="bg-gray-400 mt-1 p-8 rounded-full"
+            ><i class="fas fa-user-alt text-9xl text-white"></i
+          ></a>
+          <div
+            *ngIf="imagenSubir != ''"
+            class="rounded-full overflow-hidden w-48 h-48 border-2 border-gray-300"
+          >
+            <img id="imagenEmpleado" alt="" />
+          </div>
+          <input
+            id="inputImagen"
+            class="px-1 mt-2 text-base font-normal"
+            type="file"
+            (change)="cambiarImagen($event)"
+          />
+        </div>
+        <div
+          class="flex flex-wrap mt-2 mb-2 justify-start mx-4 md:mx-1 md:py-6"
+        >
+          <div class="flex flex-col w-full md:w-1/4 px-1 mb-2">
+            <input
+              type="text"
+              class="form-control block w-full h-full px-3 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+              id="exampleFormControlInput1"
+              placeholder="Primer nombre"
+              formControlName="nombre1"
+              autocomplete="off"
+              value=""
+            />
+            <span
+              *ngIf="campoEsValido('nombre1')"
+              class="text-xs text-red-600 pl-2 animate-enter-card"
+            >
+              Campo requerido
+            </span>
+          </div>
+          <div class="w-full md:w-1/4 px-1 mb-2">
+            <input
+              type="text"
+              class="form-control block w-full h-full px-3 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+              id="exampleFormControlInput1"
+              placeholder="Segundo nombre"
+              formControlName="nombre2"
+              autocomplete="off"
+              value=""
+            />
+          </div>
+          <div class="flex flex-col w-full md:w-1/4 px-1 mb-2">
+            <input
+              type="text"
+              class="form-control block w-full h-full px-3 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+              id="exampleFormControlInput1"
+              placeholder="Primer apellido"
+              formControlName="apellido1"
+              autocomplete="off"
+              value=""
+            />
+            <span
+              *ngIf="campoEsValido('apellido1')"
+              class="text-xs text-red-600 pl-2 animate-enter-card"
+            >
+              Campo requerido
+            </span>
+          </div>
+          <div class="w-full md:w-1/4 px-1 mb-2">
+            <input
+              type="text"
+              class="form-control block w-full h-full px-3 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+              id="exampleFormControlInput1"
+              placeholder="Segundo apellido"
+              formControlName="apellido2"
+              autocomplete="off"
+              value=""
+            />
+          </div>
+          <div class="flex flex-col w-full md:w-1/4 px-1 mb-2">
+            <select
+              class="text-base font-normal text-gray-700 px-3 w-full h-full bg-white bg-clip-padding bg-no-repeat border border-solid border-gray-300 rounded transition ease-in-out focus:text-gray-700 focus:bg-white focus:border-blue-500 focus:outline-none"
+              id="tipo"
+              name="tipo"
+              formControlName="tipo"
+            >
+              <option class="text-xs" value="" hidden>Tipo de empleado</option>
+              <option value="Médico">Médico</option>
+              <option value="Enfermero">Enfermero</option>
+              <option value="Administrador">Administrador</option>
+            </select>
+            <span
+              *ngIf="campoEsValido('tipo')"
+              class="text-xs text-red-600 pl-2 animate-enter-card"
+            >
+              Campo requerido
+            </span>
+          </div>
+          <div class="flex flex-col w-full md:w-1/4 px-1 mb-2">
+            <input
+              type="text"
+              class="form-control block w-full h-full md:w-30 px-3 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+              id="exampleFormControlInput1"
+              placeholder="Título abreviado"
+              formControlName="titulo_abreviado"
+              autocomplete="off"
+              value=""
+            />
+            <span
+              *ngIf="campoEsValido('titulo_abreviado')"
+              class="text-xs text-red-600 pl-2 animate-enter-card"
+            >
+              Campo requerido
+            </span>
+          </div>
+          <div class="flex flex-col w-full md:w-1/2 px-1 mb-2">
+            <input
+              type="text"
+              class="form-control block w-full h-full md:w-30 px-3 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+              id="exampleFormControlInput1"
+              placeholder="Correo electronico"
+              formControlName="email"
+              autocomplete="off"
+              value=""
+            />
+            <span
+              *ngIf="campoEsValido('email')"
+              class="text-xs text-red-600 pl-2 animate-enter-card"
+            >
+              Email incorrecto
+            </span>
+          </div>
+          <div class="flex flex-col w-full md:w-full px-1 mb-2">
+            <input
+              type="text"
+              class="form-control block w-full px-3 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+              id="exampleFormControlInput1"
+              placeholder="Título"
+              formControlName="titulo"
+              autocomplete="off"
+              value=""
+            />
+            <span
+              *ngIf="campoEsValido('titulo')"
+              class="text-xs text-red-600 pl-2 animate-enter-card"
+            >
+              Campo requerido
+            </span>
+          </div>
+          <div class="flex flex-row justify-center w-full">
+            <button
+              type="submit"
+              id="btnAgregarEmpleado"
+              class="text-sm md:text-base text-white py-1 bg-green-500 shadow-lg ml-2 shadow-green-400/60 rounded-lg font-medium px-3 hover:bg-blue-700 hover:shadow-blue-900/60"
+            >
+              Agregar
+            </button>
+            <button
+              (click)="nuevoEmpleado()"
+              id="btnNuevoEmpleado"
+              class="hidden text-sm md:text-base text-white py-1 bg-purple-500 shadow-lg ml-2 shadow-purple-400/60 rounded-lg font-medium px-3 hover:bg-blue-700 hover:shadow-blue-900/60"
+            >
+              Nuevo empleado
+            </button>
+          </div>
+          <div
+            class="w-full flex flex-col md:flex-row justify-center items-center my-1"
+          >
+            <div class="flex flex-col">
+              <h1 class="font-semibold">Usuario</h1>
+              <input
+                id="inputUsuario"
+                type="text"
+                readonly
+                class="bg-white h-full px-2 py-1 border border-gray-500 rounded-lg"
+                placeholder="*********"
+                value=""
+              />
+            </div>
+            <div class="flex flex-col mb-2 md:mb-0 md:ml-2">
+              <h1 class="font-semibold">Password</h1>
+              <input
+                id="inputPass"
+                type="text"
+                readonly
+                class="bg-white h-full px-2 py-1 border border-gray-500 rounded-lg"
+                placeholder="*********"
+                value=""
+              />
+            </div>
+          </div>
+          <div class="w-full">
+            <div
+              class="flex flex-row justify-center w-full"
+              id="labelDatosUsuario"
+            >
+              <label
+                >El usuario y contraseña son generados automaticamente.</label
+              >
+            </div>
+          </div>
+          <div class="hidden w-full animate-enter-card" id="labelCopiarDatos">
+            <div class="flex flex-row justify-center w-full">
+              <label
+                >Por favor, copiar los datos de usuario ya que no se volveran a
+                mostrar.</label
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

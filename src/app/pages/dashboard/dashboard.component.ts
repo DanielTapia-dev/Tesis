@@ -18,7 +18,6 @@ export class DashboardComponent implements OnInit {
   }
 
   cargarUsuario() {
-    console.log(this.authService.usuario.usuario);
     this.usuario = this.authService.usuario.usuario;
   }
 }

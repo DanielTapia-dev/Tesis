@@ -299,7 +299,9 @@ export class HistorialesComponent implements OnInit {
       edad--;
     }
     this.fechaConsultaActual = fechaConsulta;
-    this.consultaActual = consulta;
+    this.consultasService.obtenerConsulta(consulta.id).subscribe(resp => {
+      this.consultaActual = resp;
+    });
     this.numeroConsultaActual = consulta.total - index;
     this.consultaActual.fecha = this.consultaActual.fecha[0] + this.consultaActual.fecha[1] + this.consultaActual.fecha[2] + this.consultaActual.fecha[3] + this.consultaActual.fecha[4] + this.consultaActual.fecha[5] + this.consultaActual.fecha[6]
       + this.consultaActual.fecha[7] + this.consultaActual.fecha[8] + this.consultaActual.fecha[9];
@@ -332,6 +334,8 @@ export class HistorialesComponent implements OnInit {
     })
   }
 
+
+
   imprimirPdf(fecha: any, idConsulta: number, consulta: Consulta, index: number) {
     const moment = require('moment-timezone');
     this.consultaActual = consulta;
@@ -351,513 +355,533 @@ export class HistorialesComponent implements OnInit {
     this.consultaActual.fecha = this.consultaActual.fecha[0] + this.consultaActual.fecha[1] + this.consultaActual.fecha[2] + this.consultaActual.fecha[3] + this.consultaActual.fecha[4] + this.consultaActual.fecha[5] + this.consultaActual.fecha[6]
       + this.consultaActual.fecha[7] + this.consultaActual.fecha[8] + this.consultaActual.fecha[9];
     this.fechaConsultaActual = this.consultaActual.fecha;
-    this.diagnosticosService.getDescripcion(consulta.codigo_cie10_per).subscribe(resp => {
-      this.diagnosticoActual = resp;
-      console.log(this.diagnosticoActual);
-      this.cronologiaService.getCronologiaUnica(consulta.id_cronologia_per).subscribe(resp => {
-        if (resp.length > 0) {
-          this.cronologiaActual = resp[0].nombre;
-        } else {
-          this.cronologiaActual = '';
-        }
-        this.condicionService.getCondicionUnica(consulta.id_condicion_per).subscribe(resp => {
+    this.consultasService.obtenerConsulta(consulta.id).subscribe(resp => {
+      this.consultaActual = resp;
+      consulta = resp;
+      this.diagnosticosService.getDescripcion(consulta.codigo_cie10_per).subscribe(resp => {
+        this.diagnosticoActual = resp;
+        console.log(this.diagnosticoActual);
+        this.cronologiaService.getCronologiaUnica(consulta.id_cronologia_per).subscribe(resp => {
           if (resp.length > 0) {
-            this.condicionActual = resp[0].nombre;
+            this.cronologiaActual = resp[0].nombre;
           } else {
-            this.condicionActual = '';
+            this.cronologiaActual = '';
           }
-          this.tipoService.getTipoUnico(consulta.id_tipo_per).subscribe(resp => {
+          this.condicionService.getCondicionUnica(consulta.id_condicion_per).subscribe(resp => {
             if (resp.length > 0) {
-              this.tipoActual = resp[0].nombre;
+              this.condicionActual = resp[0].nombre;
             } else {
-              this.tipoActual = '';
+              this.condicionActual = '';
             }
-            const dd: any = {
-              pageMargins: [80, 40, 80, 40],
-              content: [
-                {
-                  image: 'logo',
-                  width: 100,
-                  absolutePosition: { x: 80, y: 40 }
-                },
-                {
-                  image: 'logoLatacunga',
-                  width: 100,
-                  absolutePosition: { x: 413, y: 50 }
-                },
-                { canvas: [{ type: 'line', x1: 0, y1: 47, x2: 435, y2: 47, lineWidth: 1 }] },
-                {
-                  alignment: 'center',
-                  text: ['HISTORIA CLÍNICA'],
-                  style: 'bigheader',
-                  margin: [0, 4, 0, 0]
-                },
-                {
-                  alignment: 'justify',
-                  text: [
-                    { text: `Código: `, style: 'subheader' },
-                    { text: `${this.historiaSeleccionada.nrohistoria}    `, style: 'normal' },
-                    { text: `Nombre de médico: `, style: 'subheader' },
-                    { text: `${consulta.empleado}.`, style: 'normal' }
-                  ],
-                  margin: [0, 1, 0, 0]
-                },
-                {
-                  alignment: 'justify',
-                  text: [
-                    { text: `Fecha de consulta: `, style: 'subheader' },
-                    { text: `${fechaConsulta}.    `, style: 'normal' },
-                  ],
-                },
-                {
-                  alignment: 'left',
-                  text: ['I. FICHA DE IDENTIFICACIÓN'],
-                  style: 'header',
-                  margin: [0, 15, 0, 0]
-                },
-                {
-                  alignment: 'justify',
-                  text: [
-                    { text: `Paciente: `, style: 'subheader' },
-                    { text: `${this.clienteSeleccionado.descrip}.  `, style: 'normal' },
-                    { text: `Edad: `, style: 'subheader' }, { text: `${edad}  `, style: 'normal' },
-                    { text: `Sexo: `, style: 'subheader' },
-                    { text: `${this.historiaSeleccionada.genero}.  `, style: 'normal' },
-                  ],
-                  margin: [0, 4, 0, 0]
-                },
-                {
-                  alignment: 'justify',
-                  text: [
-                    { text: `Fecha de nacimiento: `, style: 'subheader' },
-                    { text: `${fechaNacimiento.toLocaleDateString('es-EC', opciones)}.  `, style: 'normal' },
-                    { text: `Discapacidad: `, style: 'subheader' },
-                    { text: `${this.historiaBasePropia.discapacidad}  `, style: 'normal' },
-                    { text: `Tipo de sangre: `, style: 'subheader' },
-                    { text: `${this.historiaBasePropia.grupo_sanguineo}  `, style: 'normal' },
-                    { text: `Orientación sexual: `, style: 'subheader' },
-                    { text: `${this.historiaBasePropia.orientacion_sexual}.  `, style: 'normal' },
-                    { text: `Dirección: `, style: 'subheader' },
-                    { text: `${this.clienteSeleccionado.direcci}.`, style: 'normal' }
-                  ],
-                  margin: [0, 1, 0, 0]
-                },
-                {
-                  alignment: 'left',
-                  text: ['II. MOTIVO DE CONSULTA'],
-                  style: 'header',
-                  margin: [0, 15, 0, 0]
-                },
-                {
-                  alignment: 'justify',
-                  text: [
-                    { text: `${consulta.motivo_atencion}`, style: 'normal' },
-                  ],
-                  margin: [0, 1, 0, 0]
-                },
-                {
-                  alignment: 'justify',
-                  text: [
-                    { text: `Enfermedad actual: `, style: 'subheader' },
-                    { text: `${consulta.enfermedad_actual}    `, style: 'normal' },
-                  ],
-                  margin: [0, 1, 0, 0]
-                },
-                {
-                  alignment: 'left',
-                  text: ['III. ANTECEDENTES'],
-                  style: 'header',
-                  margin: [0, 15, 0, 0]
-                },
-                {
-                  alignment: 'justify',
-                  text: [
-                    { text: `${consulta.antecedentes}`, style: 'normal' },
-                  ],
-                  margin: [0, 1, 0, 0]
-                },
-                {
-                  alignment: 'left',
-                  text: ['IV. SIGNOS VITALES'],
-                  style: 'header',
-                  margin: [0, 15, 0, 0]
-                },
-                {
-                  style: 'tableExample',
-                  table: {
-                    widths: ['*', '*', '*', '*', '*', '*', '*', '*', '*'],
-                    body: [
-                      [{ text: 'Peso', style: 'subheader' }, { text: 'Talla', style: 'subheader' }, { text: 'IMC', style: 'subheader' }, { text: 'Pr. Sist', style: 'subheader' }, { text: 'Pr. Med', style: 'subheader' }, { text: 'Temp', style: 'subheader' }, { text: 'FC', style: 'subheader' }, { text: 'Sat', style: 'subheader' }, { text: 'FR', style: 'subheader' }],
-                      [{ text: this.consultaActual.talla, style: 'normal' }, { text: this.consultaActual.talla, style: 'normal' }, { text: this.consultaActual.imc, style: 'normal' }, { text: this.consultaActual.prsist, style: 'normal' }, { text: this.consultaActual.prdist, style: 'normal' }, { text: this.consultaActual.temp, style: 'normal' }, { text: this.consultaActual.fc, style: 'normal' }, { text: this.consultaActual.sat, style: 'normal' }, { text: this.consultaActual.fr, style: 'normal' }]
-                    ]
-                  },
-                  margin: [0, 1, 0, 0]
-                },
-                {
-                  alignment: 'left',
-                  text: ['VI. EXAMEN FÍSICO'],
-                  style: 'header',
-                  margin: [0, 15, 0, 0]
-                },
-                {
-                  alignment: 'justify',
-                  text: [
-                    { text: `${consulta.examen_fisico}`, style: 'normal' },
-                  ],
-                  margin: [0, 1, 0, 0]
-                },
-                {
-                  alignment: 'justify',
-                  text: [
-                    { text: `Resultado de exámenes: `, style: 'subheader' },
-                    { text: `${consulta.resultados_examenes}`, style: 'normal' },
-                  ],
-                  margin: [0, 1, 0, 0]
-                },
-                {
-                  alignment: 'left',
-                  text: ['VII. DIAGNOSTICO'],
-                  style: 'header',
-                  margin: [0, 15, 0, 0]
-                },
-                {
-                  alignment: 'justify',
-                  text: [
-                    { text: `Código CIE10: `, style: 'subheader' },
-                    { text: `${consulta.codigo_cie10_per}.`, style: 'normal' },
-                  ],
-                  margin: [0, 1, 0, 0]
-                },
-                {
-                  alignment: 'justify',
-                  text: [
-                    { text: `Enfermedad CIE10: `, style: 'subheader' },
-                    { text: `${this.diagnosticoActual.descripcion}`, style: 'normal' },
-                  ],
-                  margin: [0, 1, 0, 0]
-                },
-                {
-                  alignment: 'justify',
-                  text: [
-                    { text: `Cronología: `, style: 'subheader' },
-                    { text: `${this.cronologiaActual}.  `, style: 'normal' },
-                    { text: `Condición: `, style: 'subheader' },
-                    { text: `${this.condicionActual}.  `, style: 'normal' },
-                    { text: `Tipo: `, style: 'subheader' },
-                    { text: `${this.tipoActual}.  `, style: 'normal' },
-                  ],
-                  margin: [0, 1, 0, 0]
-                },
-                {
-                  alignment: 'justify',
-                  text: [
-                    { text: `Observación: `, style: 'subheader' },
-                    { text: `${consulta.observacion_signos}.`, style: 'normal' },
-                  ],
-                  margin: [0, 1, 0, 0]
-                },
-                {
-                  alignment: 'left',
-                  text: ['VIII. TRATAMIENTO'],
-                  style: 'header',
-                  margin: [0, 15, 0, 0]
-                },
-                {
-                  alignment: 'justify',
-                  text: [
-                    { text: `${consulta.tratamiento}`, style: 'normal' },
-                  ],
-                  margin: [0, 1, 0, 0]
-                },
-              ],
-              styles: {
-                bigheader: {
-                  fontSize: 14,
-                  bold: true
-                },
-                header: {
-                  fontSize: 12,
-                  bold: true
-                },
-                subheader: {
-                  fontSize: 11,
-                  bold: true
-                },
-                normal: {
-                  fontSize: 11,
-                  bold: false
-                },
-                small: {
-                  fontSize: 10,
-                  bold: false
-                }
-              },
-              images: {
-                logo: environment.logo,
-                logoLatacunga: environment.logoLatacunga
+            this.tipoService.getTipoUnico(consulta.id_tipo_per).subscribe(resp => {
+              if (resp.length > 0) {
+                this.tipoActual = resp[0].nombre;
+              } else {
+                this.tipoActual = '';
               }
-            }
-            pdfMake.createPdf(dd).open();
+              const dd: any = {
+                pageMargins: [80, 40, 80, 40],
+                content: [
+                  {
+                    image: 'logo',
+                    width: 100,
+                    absolutePosition: { x: 80, y: 40 }
+                  },
+                  {
+                    image: 'logoLatacunga',
+                    width: 100,
+                    absolutePosition: { x: 413, y: 50 }
+                  },
+                  { canvas: [{ type: 'line', x1: 0, y1: 47, x2: 435, y2: 47, lineWidth: 1 }] },
+                  {
+                    alignment: 'center',
+                    text: ['HISTORIA CLÍNICA'],
+                    style: 'bigheader',
+                    margin: [0, 4, 0, 0]
+                  },
+                  {
+                    alignment: 'justify',
+                    text: [
+                      { text: `Código: `, style: 'subheader' },
+                      { text: `${this.historiaSeleccionada.nrohistoria}    `, style: 'normal' },
+                      { text: `Nombre de médico: `, style: 'subheader' },
+                      { text: `${consulta.empleado}.`, style: 'normal' }
+                    ],
+                    margin: [0, 1, 0, 0]
+                  },
+                  {
+                    alignment: 'justify',
+                    text: [
+                      { text: `Fecha de consulta: `, style: 'subheader' },
+                      { text: `${fechaConsulta}.    `, style: 'normal' },
+                    ],
+                  },
+                  {
+                    alignment: 'left',
+                    text: ['I. FICHA DE IDENTIFICACIÓN'],
+                    style: 'header',
+                    margin: [0, 15, 0, 0]
+                  },
+                  {
+                    alignment: 'justify',
+                    text: [
+                      { text: `Paciente: `, style: 'subheader' },
+                      { text: `${this.clienteSeleccionado.descrip}.  `, style: 'normal' },
+                      { text: `Edad: `, style: 'subheader' }, { text: `${edad}  `, style: 'normal' },
+                      { text: `Sexo: `, style: 'subheader' },
+                      { text: `${this.historiaSeleccionada.genero}.  `, style: 'normal' },
+                    ],
+                    margin: [0, 4, 0, 0]
+                  },
+                  {
+                    alignment: 'justify',
+                    text: [
+                      { text: `Fecha de nacimiento: `, style: 'subheader' },
+                      { text: `${fechaNacimiento.toLocaleDateString('es-EC', opciones)}.  `, style: 'normal' },
+                      { text: `Discapacidad: `, style: 'subheader' },
+                      { text: `${this.historiaBasePropia.discapacidad}  `, style: 'normal' },
+                      { text: `Tipo de sangre: `, style: 'subheader' },
+                      { text: `${this.historiaBasePropia.grupo_sanguineo}  `, style: 'normal' },
+                      { text: `Orientación sexual: `, style: 'subheader' },
+                      { text: `${this.historiaBasePropia.orientacion_sexual}.  `, style: 'normal' },
+                      { text: `Dirección: `, style: 'subheader' },
+                      { text: `${this.clienteSeleccionado.direcci}.`, style: 'normal' }
+                    ],
+                    margin: [0, 1, 0, 0]
+                  },
+                  {
+                    alignment: 'left',
+                    text: ['II. MOTIVO DE CONSULTA'],
+                    style: 'header',
+                    margin: [0, 15, 0, 0]
+                  },
+                  {
+                    alignment: 'justify',
+                    text: [
+                      { text: `${consulta.motivo_atencion}`, style: 'normal' },
+                    ],
+                    margin: [0, 1, 0, 0]
+                  },
+                  {
+                    alignment: 'justify',
+                    text: [
+                      { text: `Enfermedad actual: `, style: 'subheader' },
+                      { text: `${consulta.enfermedad_actual}    `, style: 'normal' },
+                    ],
+                    margin: [0, 1, 0, 0]
+                  },
+                  {
+                    alignment: 'left',
+                    text: ['III. ANTECEDENTES'],
+                    style: 'header',
+                    margin: [0, 15, 0, 0]
+                  },
+                  {
+                    alignment: 'justify',
+                    text: [
+                      { text: `${consulta.antecedentes}`, style: 'normal' },
+                    ],
+                    margin: [0, 1, 0, 0]
+                  },
+                  {
+                    alignment: 'left',
+                    text: ['IV. SIGNOS VITALES'],
+                    style: 'header',
+                    margin: [0, 15, 0, 0]
+                  },
+                  {
+                    style: 'tableExample',
+                    table: {
+                      widths: ['*', '*', '*', '*', '*', '*', '*', '*', '*'],
+                      body: [
+                        [{ text: 'Peso', style: 'subheader' }, { text: 'Talla', style: 'subheader' }, { text: 'IMC', style: 'subheader' }, { text: 'Pr. Sist', style: 'subheader' }, { text: 'Pr. Med', style: 'subheader' }, { text: 'Temp', style: 'subheader' }, { text: 'FC', style: 'subheader' }, { text: 'Sat', style: 'subheader' }, { text: 'FR', style: 'subheader' }],
+                        [{ text: this.consultaActual.talla, style: 'normal' }, { text: this.consultaActual.talla, style: 'normal' }, { text: this.consultaActual.imc, style: 'normal' }, { text: this.consultaActual.prsist, style: 'normal' }, { text: this.consultaActual.prdist, style: 'normal' }, { text: this.consultaActual.temp, style: 'normal' }, { text: this.consultaActual.fc, style: 'normal' }, { text: this.consultaActual.sat, style: 'normal' }, { text: this.consultaActual.fr, style: 'normal' }]
+                      ]
+                    },
+                    margin: [0, 1, 0, 0]
+                  },
+                  {
+                    alignment: 'left',
+                    text: ['VI. EXAMEN FÍSICO'],
+                    style: 'header',
+                    margin: [0, 15, 0, 0]
+                  },
+                  {
+                    alignment: 'justify',
+                    text: [
+                      { text: `${consulta.examen_fisico}`, style: 'normal' },
+                    ],
+                    margin: [0, 1, 0, 0]
+                  },
+                  {
+                    alignment: 'justify',
+                    text: [
+                      { text: `Resultado de exámenes: `, style: 'subheader' },
+                      { text: `${consulta.resultados_examenes}`, style: 'normal' },
+                    ],
+                    margin: [0, 1, 0, 0]
+                  },
+                  {
+                    alignment: 'left',
+                    text: ['VII. DIAGNOSTICO'],
+                    style: 'header',
+                    margin: [0, 15, 0, 0]
+                  },
+                  {
+                    alignment: 'justify',
+                    text: [
+                      { text: `Código CIE10: `, style: 'subheader' },
+                      { text: `${consulta.codigo_cie10_per}.`, style: 'normal' },
+                    ],
+                    margin: [0, 1, 0, 0]
+                  },
+                  {
+                    alignment: 'justify',
+                    text: [
+                      { text: `Enfermedad CIE10: `, style: 'subheader' },
+                      { text: `${this.diagnosticoActual.descripcion}`, style: 'normal' },
+                    ],
+                    margin: [0, 1, 0, 0]
+                  },
+                  {
+                    alignment: 'justify',
+                    text: [
+                      { text: `Cronología: `, style: 'subheader' },
+                      { text: `${this.cronologiaActual}.  `, style: 'normal' },
+                      { text: `Condición: `, style: 'subheader' },
+                      { text: `${this.condicionActual}.  `, style: 'normal' },
+                      { text: `Tipo: `, style: 'subheader' },
+                      { text: `${this.tipoActual}.  `, style: 'normal' },
+                    ],
+                    margin: [0, 1, 0, 0]
+                  },
+                  {
+                    alignment: 'justify',
+                    text: [
+                      { text: `Observación: `, style: 'subheader' },
+                      { text: `${consulta.observacion_signos}.`, style: 'normal' },
+                    ],
+                    margin: [0, 1, 0, 0]
+                  },
+                  {
+                    alignment: 'left',
+                    text: ['VIII. TRATAMIENTO'],
+                    style: 'header',
+                    margin: [0, 15, 0, 0]
+                  },
+                  {
+                    alignment: 'justify',
+                    text: [
+                      { text: `${consulta.tratamiento}`, style: 'normal' },
+                    ],
+                    margin: [0, 1, 0, 0]
+                  },
+                ],
+                styles: {
+                  bigheader: {
+                    fontSize: 14,
+                    bold: true
+                  },
+                  header: {
+                    fontSize: 12,
+                    bold: true
+                  },
+                  subheader: {
+                    fontSize: 11,
+                    bold: true
+                  },
+                  normal: {
+                    fontSize: 11,
+                    bold: false
+                  },
+                  small: {
+                    fontSize: 10,
+                    bold: false
+                  }
+                },
+                images: {
+                  logo: environment.logo,
+                  logoLatacunga: environment.logoLatacunga
+                }
+              }
+              pdfMake.createPdf(dd).open();
+            })
           })
         })
       })
-    })
+    });
+
   }
 
   imprimirPdf2() {
-    const opciones: any = { year: 'numeric', month: 'long', day: 'numeric' };
-    let fechaNacimiento = new Date(this.historiaSeleccionada.fechanac);
-    this.diagnosticosService.getDescripcion(this.consultaActual.codigo_cie10_per).subscribe(resp => {
-      this.diagnosticoActual = resp;
-      console.log(this.diagnosticoActual);
-      this.cronologiaService.getCronologiaUnica(this.consultaActual.id_cronologia_per).subscribe(resp => {
-        if (resp.length > 0) {
-          this.cronologiaActual = resp[0].nombre;
-        } else {
-          this.cronologiaActual = '';
-        }
-        this.condicionService.getCondicionUnica(this.consultaActual.id_condicion_per).subscribe(resp => {
+    this.consultasService.obtenerConsulta(this.consultaActual.id).subscribe(resp => {
+      this.consultaActual = resp;
+      const moment = require('moment-timezone');
+      const opciones: any = { year: 'numeric', month: 'long', day: 'numeric' };
+      let fechaConsulta = moment(this.consultaActual.fecha).locale('es').format('LL');
+      const fechaComputador = moment();
+      const fechaActualEcuador = fechaComputador.tz('America/Guayaquil').format('YYYY/MM/DD');
+      let fechaActual = new Date(fechaActualEcuador);
+      let fechaNacimiento = new Date(this.historiaSeleccionada.fechanac);
+      let edad = fechaActual.getFullYear() - fechaNacimiento.getFullYear();
+      let meses = fechaActual.getMonth() - fechaNacimiento.getMonth();
+      if (meses < 0 || (meses === 0 && fechaActual.getDate() < fechaNacimiento.getDate())) {
+        edad--;
+      }
+      this.edadActual = edad;
+      this.diagnosticosService.getDescripcion(this.consultaActual.codigo_cie10_per).subscribe(resp => {
+        this.diagnosticoActual = resp;
+        console.log(this.diagnosticoActual);
+        this.cronologiaService.getCronologiaUnica(this.consultaActual.id_cronologia_per).subscribe(resp => {
           if (resp.length > 0) {
-            this.condicionActual = resp[0].nombre;
+            this.cronologiaActual = resp[0].nombre;
           } else {
-            this.condicionActual = '';
+            this.cronologiaActual = '';
           }
-          this.tipoService.getTipoUnico(this.consultaActual.id_tipo_per).subscribe(resp => {
+          this.condicionService.getCondicionUnica(this.consultaActual.id_condicion_per).subscribe(resp => {
             if (resp.length > 0) {
-              this.tipoActual = resp[0].nombre;
+              this.condicionActual = resp[0].nombre;
             } else {
-              this.tipoActual = '';
+              this.condicionActual = '';
             }
-            const dd: any = {
-              pageMargins: [80, 40, 80, 40],
-              content: [
-                {
-                  image: 'logo',
-                  width: 100,
-                  absolutePosition: { x: 80, y: 40 }
-                },
-                {
-                  image: 'logoLatacunga',
-                  width: 100,
-                  absolutePosition: { x: 413, y: 50 }
-                },
-                { canvas: [{ type: 'line', x1: 0, y1: 47, x2: 435, y2: 47, lineWidth: 1 }] },
-                {
-                  alignment: 'center',
-                  text: ['HISTORIA CLÍNICA'],
-                  style: 'bigheader',
-                  margin: [0, 4, 0, 0]
-                },
-                {
-                  alignment: 'justify',
-                  text: [
-                    { text: `Código: `, style: 'subheader' },
-                    { text: `${this.historiaSeleccionada.nrohistoria}    `, style: 'normal' },
-                    { text: `Nombre de médico: `, style: 'subheader' },
-                    { text: `${this.consultaActual.empleado}.`, style: 'normal' }
-                  ],
-                  margin: [0, 1, 0, 0]
-                },
-                {
-                  alignment: 'justify',
-                  text: [
-                    { text: `Fecha de consulta: `, style: 'subheader' },
-                    { text: `${this.fechaConsultaActual}.    `, style: 'normal' },
-                  ],
-                },
-                {
-                  alignment: 'left',
-                  text: ['I. FICHA DE IDENTIFICACIÓN'],
-                  style: 'header',
-                  margin: [0, 15, 0, 0]
-                },
-                {
-                  alignment: 'justify',
-                  text: [
-                    { text: `Paciente: `, style: 'subheader' },
-                    { text: `${this.clienteSeleccionado.descrip}.  `, style: 'normal' },
-                    { text: `Edad: `, style: 'subheader' }, { text: `${this.edadActual}  `, style: 'normal' },
-                    { text: `Sexo: `, style: 'subheader' },
-                    { text: `${this.historiaSeleccionada.genero}.  `, style: 'normal' },
-                  ],
-                  margin: [0, 4, 0, 0]
-                },
-                {
-                  alignment: 'justify',
-                  text: [
-                    { text: `Fecha de nacimiento: `, style: 'subheader' },
-                    { text: `${fechaNacimiento.toLocaleDateString('es-EC', opciones)}.  `, style: 'normal' },
-                    { text: `Discapacidad: `, style: 'subheader' },
-                    { text: `${this.historiaBasePropia.discapacidad}  `, style: 'normal' },
-                    { text: `Tipo de sangre: `, style: 'subheader' },
-                    { text: `${this.historiaBasePropia.grupo_sanguineo}  `, style: 'normal' },
-                    { text: `Orientación sexual: `, style: 'subheader' },
-                    { text: `${this.historiaBasePropia.orientacion_sexual}.  `, style: 'normal' },
-                    { text: `Dirección: `, style: 'subheader' },
-                    { text: `${this.clienteSeleccionado.direcci}.`, style: 'normal' }
-                  ],
-                  margin: [0, 1, 0, 0]
-                },
-                {
-                  alignment: 'left',
-                  text: ['II. MOTIVO DE CONSULTA'],
-                  style: 'header',
-                  margin: [0, 15, 0, 0]
-                },
-                {
-                  alignment: 'justify',
-                  text: [
-                    { text: `${this.consultaActual.motivo_atencion}`, style: 'normal' },
-                  ],
-                  margin: [0, 1, 0, 0]
-                },
-                {
-                  alignment: 'justify',
-                  text: [
-                    { text: `Enfermedad actual: `, style: 'subheader' },
-                    { text: `${this.consultaActual.enfermedad_actual}    `, style: 'normal' },
-                  ],
-                  margin: [0, 1, 0, 0]
-                },
-                {
-                  alignment: 'left',
-                  text: ['III. ANTECEDENTES'],
-                  style: 'header',
-                  margin: [0, 15, 0, 0]
-                },
-                {
-                  alignment: 'justify',
-                  text: [
-                    { text: `${this.consultaActual.antecedentes}`, style: 'normal' },
-                  ],
-                  margin: [0, 1, 0, 0]
-                },
-                {
-                  alignment: 'left',
-                  text: ['IV. SIGNOS VITALES'],
-                  style: 'header',
-                  margin: [0, 15, 0, 0]
-                },
-                {
-                  style: 'tableExample',
-                  table: {
-                    widths: ['*', '*', '*', '*', '*', '*', '*', '*', '*'],
-                    body: [
-                      [{ text: 'Peso', style: 'subheader' }, { text: 'Talla', style: 'subheader' }, { text: 'IMC', style: 'subheader' }, { text: 'Pr. Sist', style: 'subheader' }, { text: 'Pr. Med', style: 'subheader' }, { text: 'Temp', style: 'subheader' }, { text: 'FC', style: 'subheader' }, { text: 'Sat', style: 'subheader' }, { text: 'FR', style: 'subheader' }],
-                      [{ text: this.consultaActual.talla, style: 'normal' }, { text: this.consultaActual.talla, style: 'normal' }, { text: this.consultaActual.imc, style: 'normal' }, { text: this.consultaActual.prsist, style: 'normal' }, { text: this.consultaActual.prdist, style: 'normal' }, { text: this.consultaActual.temp, style: 'normal' }, { text: this.consultaActual.fc, style: 'normal' }, { text: this.consultaActual.sat, style: 'normal' }, { text: this.consultaActual.fr, style: 'normal' }]
-                    ]
-                  },
-                  margin: [0, 1, 0, 0]
-                },
-                {
-                  alignment: 'left',
-                  text: ['VI. EXAMEN FÍSICO'],
-                  style: 'header',
-                  margin: [0, 15, 0, 0]
-                },
-                {
-                  alignment: 'justify',
-                  text: [
-                    { text: `${this.consultaActual.examen_fisico}`, style: 'normal' },
-                  ],
-                  margin: [0, 1, 0, 0]
-                },
-                {
-                  alignment: 'justify',
-                  text: [
-                    { text: `Resultado de exámenes: `, style: 'subheader' },
-                    { text: `${this.consultaActual.resultados_examenes}`, style: 'normal' },
-                  ],
-                  margin: [0, 1, 0, 0]
-                },
-                {
-                  alignment: 'left',
-                  text: ['VII. DIAGNOSTICO'],
-                  style: 'header',
-                  margin: [0, 15, 0, 0]
-                },
-                {
-                  alignment: 'justify',
-                  text: [
-                    { text: `Código CIE10: `, style: 'subheader' },
-                    { text: `${this.consultaActual.codigo_cie10_per}.`, style: 'normal' },
-                  ],
-                  margin: [0, 1, 0, 0]
-                },
-                {
-                  alignment: 'justify',
-                  text: [
-                    { text: `Enfermedad CIE10: `, style: 'subheader' },
-                    { text: `${this.diagnosticoActual.descripcion}`, style: 'normal' },
-                  ],
-                  margin: [0, 1, 0, 0]
-                },
-                {
-                  alignment: 'justify',
-                  text: [
-                    { text: `Cronología: `, style: 'subheader' },
-                    { text: `${this.cronologiaActual}.  `, style: 'normal' },
-                    { text: `Condición: `, style: 'subheader' },
-                    { text: `${this.condicionActual}.  `, style: 'normal' },
-                    { text: `Tipo: `, style: 'subheader' },
-                    { text: `${this.tipoActual}.  `, style: 'normal' },
-                  ],
-                  margin: [0, 1, 0, 0]
-                },
-                {
-                  alignment: 'justify',
-                  text: [
-                    { text: `Observación: `, style: 'subheader' },
-                    { text: `${this.consultaActual.observacion_signos}.`, style: 'normal' },
-                  ],
-                  margin: [0, 1, 0, 0]
-                },
-                {
-                  alignment: 'left',
-                  text: ['VIII. TRATAMIENTO'],
-                  style: 'header',
-                  margin: [0, 15, 0, 0]
-                },
-                {
-                  alignment: 'justify',
-                  text: [
-                    { text: `${this.consultaActual.tratamiento}`, style: 'normal' },
-                  ],
-                  margin: [0, 1, 0, 0]
-                },
-              ],
-              styles: {
-                bigheader: {
-                  fontSize: 14,
-                  bold: true
-                },
-                header: {
-                  fontSize: 12,
-                  bold: true
-                },
-                subheader: {
-                  fontSize: 11,
-                  bold: true
-                },
-                normal: {
-                  fontSize: 11,
-                  bold: false
-                },
-                small: {
-                  fontSize: 10,
-                  bold: false
-                }
-              },
-              images: {
-                logo: environment.logo,
-                logoLatacunga: environment.logoLatacunga
+            this.tipoService.getTipoUnico(this.consultaActual.id_tipo_per).subscribe(resp => {
+              if (resp.length > 0) {
+                this.tipoActual = resp[0].nombre;
+              } else {
+                this.tipoActual = '';
               }
-            }
-            pdfMake.createPdf(dd).open();
+              const dd: any = {
+                pageMargins: [80, 40, 80, 40],
+                content: [
+                  {
+                    image: 'logo',
+                    width: 100,
+                    absolutePosition: { x: 80, y: 40 }
+                  },
+                  {
+                    image: 'logoLatacunga',
+                    width: 100,
+                    absolutePosition: { x: 413, y: 50 }
+                  },
+                  { canvas: [{ type: 'line', x1: 0, y1: 47, x2: 435, y2: 47, lineWidth: 1 }] },
+                  {
+                    alignment: 'center',
+                    text: ['HISTORIA CLÍNICA'],
+                    style: 'bigheader',
+                    margin: [0, 4, 0, 0]
+                  },
+                  {
+                    alignment: 'justify',
+                    text: [
+                      { text: `Código: `, style: 'subheader' },
+                      { text: `${this.historiaSeleccionada.nrohistoria}    `, style: 'normal' },
+                      { text: `Nombre de médico: `, style: 'subheader' },
+                      { text: `${this.consultaActual.empleado}.`, style: 'normal' }
+                    ],
+                    margin: [0, 1, 0, 0]
+                  },
+                  {
+                    alignment: 'justify',
+                    text: [
+                      { text: `Fecha de consulta: `, style: 'subheader' },
+                      { text: `${this.fechaConsultaActual}.    `, style: 'normal' },
+                    ],
+                  },
+                  {
+                    alignment: 'left',
+                    text: ['I. FICHA DE IDENTIFICACIÓN'],
+                    style: 'header',
+                    margin: [0, 15, 0, 0]
+                  },
+                  {
+                    alignment: 'justify',
+                    text: [
+                      { text: `Paciente: `, style: 'subheader' },
+                      { text: `${this.clienteSeleccionado.descrip}.  `, style: 'normal' },
+                      { text: `Edad: `, style: 'subheader' }, { text: `${this.edadActual}  `, style: 'normal' },
+                      { text: `Sexo: `, style: 'subheader' },
+                      { text: `${this.historiaSeleccionada.genero}.  `, style: 'normal' },
+                    ],
+                    margin: [0, 4, 0, 0]
+                  },
+                  {
+                    alignment: 'justify',
+                    text: [
+                      { text: `Fecha de nacimiento: `, style: 'subheader' },
+                      { text: `${fechaNacimiento.toLocaleDateString('es-EC', opciones)}.  `, style: 'normal' },
+                      { text: `Discapacidad: `, style: 'subheader' },
+                      { text: `${this.historiaBasePropia.discapacidad}  `, style: 'normal' },
+                      { text: `Tipo de sangre: `, style: 'subheader' },
+                      { text: `${this.historiaBasePropia.grupo_sanguineo}  `, style: 'normal' },
+                      { text: `Orientación sexual: `, style: 'subheader' },
+                      { text: `${this.historiaBasePropia.orientacion_sexual}.  `, style: 'normal' },
+                      { text: `Dirección: `, style: 'subheader' },
+                      { text: `${this.clienteSeleccionado.direcci}.`, style: 'normal' }
+                    ],
+                    margin: [0, 1, 0, 0]
+                  },
+                  {
+                    alignment: 'left',
+                    text: ['II. MOTIVO DE CONSULTA'],
+                    style: 'header',
+                    margin: [0, 15, 0, 0]
+                  },
+                  {
+                    alignment: 'justify',
+                    text: [
+                      { text: `${this.consultaActual.motivo_atencion}`, style: 'normal' },
+                    ],
+                    margin: [0, 1, 0, 0]
+                  },
+                  {
+                    alignment: 'justify',
+                    text: [
+                      { text: `Enfermedad actual: `, style: 'subheader' },
+                      { text: `${this.consultaActual.enfermedad_actual}    `, style: 'normal' },
+                    ],
+                    margin: [0, 1, 0, 0]
+                  },
+                  {
+                    alignment: 'left',
+                    text: ['III. ANTECEDENTES'],
+                    style: 'header',
+                    margin: [0, 15, 0, 0]
+                  },
+                  {
+                    alignment: 'justify',
+                    text: [
+                      { text: `${this.consultaActual.antecedentes}`, style: 'normal' },
+                    ],
+                    margin: [0, 1, 0, 0]
+                  },
+                  {
+                    alignment: 'left',
+                    text: ['IV. SIGNOS VITALES'],
+                    style: 'header',
+                    margin: [0, 15, 0, 0]
+                  },
+                  {
+                    style: 'tableExample',
+                    table: {
+                      widths: ['*', '*', '*', '*', '*', '*', '*', '*', '*'],
+                      body: [
+                        [{ text: 'Peso', style: 'subheader' }, { text: 'Talla', style: 'subheader' }, { text: 'IMC', style: 'subheader' }, { text: 'Pr. Sist', style: 'subheader' }, { text: 'Pr. Med', style: 'subheader' }, { text: 'Temp', style: 'subheader' }, { text: 'FC', style: 'subheader' }, { text: 'Sat', style: 'subheader' }, { text: 'FR', style: 'subheader' }],
+                        [{ text: this.consultaActual.talla, style: 'normal' }, { text: this.consultaActual.talla, style: 'normal' }, { text: this.consultaActual.imc, style: 'normal' }, { text: this.consultaActual.prsist, style: 'normal' }, { text: this.consultaActual.prdist, style: 'normal' }, { text: this.consultaActual.temp, style: 'normal' }, { text: this.consultaActual.fc, style: 'normal' }, { text: this.consultaActual.sat, style: 'normal' }, { text: this.consultaActual.fr, style: 'normal' }]
+                      ]
+                    },
+                    margin: [0, 1, 0, 0]
+                  },
+                  {
+                    alignment: 'left',
+                    text: ['VI. EXAMEN FÍSICO'],
+                    style: 'header',
+                    margin: [0, 15, 0, 0]
+                  },
+                  {
+                    alignment: 'justify',
+                    text: [
+                      { text: `${this.consultaActual.examen_fisico}`, style: 'normal' },
+                    ],
+                    margin: [0, 1, 0, 0]
+                  },
+                  {
+                    alignment: 'justify',
+                    text: [
+                      { text: `Resultado de exámenes: `, style: 'subheader' },
+                      { text: `${this.consultaActual.resultados_examenes}`, style: 'normal' },
+                    ],
+                    margin: [0, 1, 0, 0]
+                  },
+                  {
+                    alignment: 'left',
+                    text: ['VII. DIAGNOSTICO'],
+                    style: 'header',
+                    margin: [0, 15, 0, 0]
+                  },
+                  {
+                    alignment: 'justify',
+                    text: [
+                      { text: `Código CIE10: `, style: 'subheader' },
+                      { text: `${this.consultaActual.codigo_cie10_per}.`, style: 'normal' },
+                    ],
+                    margin: [0, 1, 0, 0]
+                  },
+                  {
+                    alignment: 'justify',
+                    text: [
+                      { text: `Enfermedad CIE10: `, style: 'subheader' },
+                      { text: `${this.diagnosticoActual.descripcion}`, style: 'normal' },
+                    ],
+                    margin: [0, 1, 0, 0]
+                  },
+                  {
+                    alignment: 'justify',
+                    text: [
+                      { text: `Cronología: `, style: 'subheader' },
+                      { text: `${this.cronologiaActual}.  `, style: 'normal' },
+                      { text: `Condición: `, style: 'subheader' },
+                      { text: `${this.condicionActual}.  `, style: 'normal' },
+                      { text: `Tipo: `, style: 'subheader' },
+                      { text: `${this.tipoActual}.  `, style: 'normal' },
+                    ],
+                    margin: [0, 1, 0, 0]
+                  },
+                  {
+                    alignment: 'justify',
+                    text: [
+                      { text: `Observación: `, style: 'subheader' },
+                      { text: `${this.consultaActual.observacion_signos}.`, style: 'normal' },
+                    ],
+                    margin: [0, 1, 0, 0]
+                  },
+                  {
+                    alignment: 'left',
+                    text: ['VIII. TRATAMIENTO'],
+                    style: 'header',
+                    margin: [0, 15, 0, 0]
+                  },
+                  {
+                    alignment: 'justify',
+                    text: [
+                      { text: `${this.consultaActual.tratamiento}`, style: 'normal' },
+                    ],
+                    margin: [0, 1, 0, 0]
+                  },
+                ],
+                styles: {
+                  bigheader: {
+                    fontSize: 14,
+                    bold: true
+                  },
+                  header: {
+                    fontSize: 12,
+                    bold: true
+                  },
+                  subheader: {
+                    fontSize: 11,
+                    bold: true
+                  },
+                  normal: {
+                    fontSize: 11,
+                    bold: false
+                  },
+                  small: {
+                    fontSize: 10,
+                    bold: false
+                  }
+                },
+                images: {
+                  logo: environment.logo,
+                  logoLatacunga: environment.logoLatacunga
+                }
+              }
+              pdfMake.createPdf(dd).open();
+            })
           })
         })
       })
     })
+
   }
 
   abrirVistaHistorial() {

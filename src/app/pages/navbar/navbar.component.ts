@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { EmpleadoModel } from 'src/app/models/empleado';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-navbar',
@@ -7,14 +9,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor() { }
+  constructor(private authService: AuthService) { }
 
   sidebar: any;
   sidebarMobile: any;
+  usuarioActual: EmpleadoModel = new EmpleadoModel();
 
   ngOnInit(): void {
     this.sidebar = document.querySelector('aside');
     this.sidebarMobile = document.querySelector('#sidebarMobile');
+    this.usuarioActual = this.authService.usuario.usuario;
   }
 
   hiddenSidebar() {

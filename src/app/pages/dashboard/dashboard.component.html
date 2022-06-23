@@ -10,15 +10,17 @@
     >
       <div class="flex flex-col md:w-1/3 py-2">
         <div class="flex flex-row justify-center mt-2">
-          <div class="rounded-full overflow-hidden w-48 h-48 bg-gray-900">
-            <img src="../../../assets/img/medico.png" alt="" />
+          <div
+            class="rounded-full overflow-hidden w-48 h-48 bg-gray-900 border-2 border-gray-300"
+          >
+            <img [src]="usuario.foto" alt="" />
           </div>
         </div>
         <div class="flex flex-row justify-center">
           <p class="font-semibold text-gray-600 text-lg mt-2 ml-2">
-            Dr. {{ usuario.usuario.nombre1 }}
-            {{ usuario.usuario.nombre2 }}
-            {{ usuario.usuario.apellido1 }} {{ usuario.usuario.apellido2 }}
+            Dr. {{ usuario.nombre1 }}
+            {{ usuario.nombre2 }}
+            {{ usuario.apellido1 }} {{ usuario.apellido2 }}
           </p>
         </div>
         <div class="flex flex-row justify-center my-2">

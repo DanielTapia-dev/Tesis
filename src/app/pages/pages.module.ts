@@ -8,9 +8,12 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { AtencionComponent } from './atencion/atencion.component';
 import { HistorialesComponent } from './historiales/historiales.component';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EmpleadosComponent } from './empleados/empleados.component';
 import { ConsultasComponent } from './consultas/consultas.component';
+import { CondicionComponent } from './condicion/condicion.component';
+import { CronologiaComponent } from './cronologia/cronologia.component';
+import { TipoComponent } from './tipo/tipo.component';
 
 @NgModule({
   declarations: [
@@ -21,13 +24,17 @@ import { ConsultasComponent } from './consultas/consultas.component';
     AtencionComponent,
     HistorialesComponent,
     EmpleadosComponent,
-    ConsultasComponent
+    ConsultasComponent,
+    CondicionComponent,
+    CronologiaComponent,
+    TipoComponent
   ],
   imports: [
     CommonModule,
     PagesRoutingModule,
     NgxPaginationModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ]
 })
 export class PagesModule { }

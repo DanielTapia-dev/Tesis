@@ -5,11 +5,14 @@ import { ValidarPaginaGuard } from '../guards/validar-pagina.guard';
 import { ValidarPersonalMedicoGuard } from '../guards/validar-personal-medico.guard';
 import { ValidarTokenGuard } from '../guards/validar-token.guard';
 import { AtencionComponent } from './atencion/atencion.component';
+import { CondicionComponent } from './condicion/condicion.component';
 import { ConsultasComponent } from './consultas/consultas.component';
+import { CronologiaComponent } from './cronologia/cronologia.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { EmpleadosComponent } from './empleados/empleados.component';
 import { HistorialesComponent } from './historiales/historiales.component';
 import { MainComponent } from './main/main.component';
+import { TipoComponent } from './tipo/tipo.component';
 
 const routes: Routes = [
   {
@@ -37,6 +40,24 @@ const routes: Routes = [
       {
         path: 'consultas',
         component: ConsultasComponent,
+        canActivate: [ValidarAdminGuard, ValidarTokenGuard],
+        canLoad: [ValidarAdminGuard, ValidarTokenGuard]
+      },
+      {
+        path: 'cronologia',
+        component: CronologiaComponent,
+        canActivate: [ValidarAdminGuard, ValidarTokenGuard],
+        canLoad: [ValidarAdminGuard, ValidarTokenGuard]
+      },
+      {
+        path: 'condicion',
+        component: CondicionComponent,
+        canActivate: [ValidarAdminGuard, ValidarTokenGuard],
+        canLoad: [ValidarAdminGuard, ValidarTokenGuard]
+      },
+      {
+        path: 'tipo',
+        component: TipoComponent,
         canActivate: [ValidarAdminGuard, ValidarTokenGuard],
         canLoad: [ValidarAdminGuard, ValidarTokenGuard]
       },

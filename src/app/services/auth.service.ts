@@ -18,9 +18,9 @@ export class AuthService {
     return { ...this._usuario };
   }
 
-  login(usuario: string, password: string) {
-    const url = `${this.baseUrl}empleados/login/${usuario}/${password}`;
-    return this.http.get<LoginResponse>(url).pipe(
+  login(formData: FormData) {
+    const url = `${this.baseUrl}empleados/login`;
+    return this.http.post<LoginResponse>(url, formData).pipe(
       tap((resp) => {
         if (resp.ok) {
           localStorage.setItem('token', resp.token);

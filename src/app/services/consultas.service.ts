@@ -29,6 +29,15 @@ export class ConsultasService {
     return this.http.get<Consulta[]>(url, { headers });
   }
 
+  obtenerConsulta(id: number) {
+    console.log(id);
+    const url = `${this.baseUrl}consulta/obtenerConsulta/${id}`;
+    const headers = new HttpHeaders()
+      .set('auth-token', localStorage.getItem('token') || '');
+
+    return this.http.get<any>(url, { headers });
+  }
+
   putConsulta(formData: object) {
     const url = `${this.baseUrl}consulta/actualizarConsulta`;
     const headers = new HttpHeaders()

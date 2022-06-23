@@ -26,7 +26,11 @@ export class LoginComponent implements OnInit {
   }
 
   Login() {
-    this.authService.login(this.LoginForm.value.usuario, this.LoginForm.value.password).subscribe(resp => {
+    const formData: any = {
+      usuario: this.LoginForm.value.usuario,
+      password: this.LoginForm.value.password
+    }
+    this.authService.login(formData).subscribe(resp => {
       if (resp === true) {
         this.router.navigateByUrl('/pages');
       } else {
