@@ -343,9 +343,7 @@
                       <th class="text-left p-4 font-medium border-r">
                         Pr. Sist
                       </th>
-                      <th class="text-left p-4 font-medium border-r">
-                        Pr. Med
-                      </th>
+                      <th class="text-left p-4 font-medium border-r">Dist.</th>
                       <th class="text-left p-4 font-medium border-r">Temp</th>
                       <th class="text-left p-4 font-medium border-r">FC</th>
                       <th class="text-left p-4 font-medium border-r">Sat</th>
@@ -532,22 +530,22 @@
                         (keyup.enter)="onEnterCIE10()"
                         autocomplete="off"
                       />
-                    </div>
-                    <select
-                      id="selectCodigoCie10"
-                      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                      (change)="asignarTextDiagnostico('')"
-                    >
-                      <option *ngIf="enfermedadesCie.length == 0" selected>
-                        Seleccione un código
-                      </option>
-                      <option
-                        *ngFor="let enfermedadCie of enfermedadesCie"
-                        [value]="enfermedadCie.codigo_cie10"
+                      <select
+                        id="selectCodigoCie10"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        (change)="asignarTextDiagnostico('')"
                       >
-                        {{ enfermedadCie.codigo_cie10 }}
-                      </option>
-                    </select>
+                        <option *ngIf="enfermedadesCie.length == 0" selected>
+                          Seleccione un código
+                        </option>
+                        <option
+                          *ngFor="let enfermedadCie of enfermedadesCie"
+                          [value]="enfermedadCie.codigo_cie10"
+                        >
+                          {{ enfermedadCie.codigo_cie10 }}
+                        </option>
+                      </select>
+                    </div>
                     <textarea
                       class="w-full my-1 p-2 outline-blue-600"
                       type="text"
@@ -716,7 +714,7 @@
                           Pr. Sist
                         </th>
                         <th class="text-left p-4 font-medium border-r">
-                          Pr. Med
+                          Dist.
                         </th>
                         <th class="text-left p-4 font-medium border-r">Temp</th>
                         <th class="text-left p-4 font-medium border-r">FC</th>
@@ -873,7 +871,7 @@
                 {{ consulta.total - i }}
               </td>
               <td class="border-r md:px-4 md:py-1">
-                {{ consulta.fecha | date: "yyyy-MM-dd" }}
+                {{ consulta.fecha }}
               </td>
               <td class="border-r md:px-4 md:py-1">{{ consulta.empleado }}</td>
               <td class="border-r md:px-4 md:py-1">

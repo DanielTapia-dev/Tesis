@@ -287,7 +287,7 @@ export class HistorialesComponent implements OnInit {
 
   cargarConsulta(fecha: any, idConsulta: number, consulta: Consulta, index: number) {
     const moment = require('moment-timezone');
-    let fechaConsulta = moment(consulta.fecha).locale('es').format('LL');
+    let fechaConsulta = consulta.fecha;
     const opciones: any = { year: 'numeric', month: 'long', day: 'numeric' };
     const fechaComputador = moment();
     const fechaActualEcuador = fechaComputador.tz('America/Guayaquil').format('YYYY/MM/DD');
@@ -340,7 +340,7 @@ export class HistorialesComponent implements OnInit {
     const moment = require('moment-timezone');
     this.consultaActual = consulta;
     this.numeroConsultaActual = consulta.total - index;
-    let fechaConsulta = moment(consulta.fecha).locale('es').format('LL');
+    let fechaConsulta = consulta.fecha;
     const opciones: any = { year: 'numeric', month: 'long', day: 'numeric' };
     const fechaComputador = moment();
     const fechaActualEcuador = fechaComputador.tz('America/Guayaquil').format('YYYY/MM/DD');
@@ -352,9 +352,8 @@ export class HistorialesComponent implements OnInit {
       edad--;
     }
     this.edadActual = edad;
-    this.consultaActual.fecha = this.consultaActual.fecha[0] + this.consultaActual.fecha[1] + this.consultaActual.fecha[2] + this.consultaActual.fecha[3] + this.consultaActual.fecha[4] + this.consultaActual.fecha[5] + this.consultaActual.fecha[6]
-      + this.consultaActual.fecha[7] + this.consultaActual.fecha[8] + this.consultaActual.fecha[9];
     this.fechaConsultaActual = this.consultaActual.fecha;
+    let paginaUnica = 90;
     this.consultasService.obtenerConsulta(consulta.id).subscribe(resp => {
       this.consultaActual = resp;
       consulta = resp;
@@ -380,24 +379,56 @@ export class HistorialesComponent implements OnInit {
                 this.tipoActual = '';
               }
               const dd: any = {
-                pageMargins: [80, 40, 80, 40],
+                footer: function (currentPage: any, pageCount: any) {
+                  if (currentPage == pageCount) {
+                    return [
+                      {
+                        table: {
+                          widths: [200],
+                          headerRows: 1,
+                          body: [
+                            [{ text: ``, style: 'tableHeader' }],
+                            [{ text: `Dr. Daniel Tapia\nMédico general`, alignment: 'center' }],
+                          ]
+                        },
+                        layout: 'headerLineOnly',
+                        margin: [200, 50, 0, 0]
+                      },
+                      {
+                        text: `${currentPage.toString()} de ${pageCount}`,
+                        margin: [80, 0, 0, 0]
+                      },
+                      ,
+                    ]
+                  }
+                  return {
+                    columns: [
+                      currentPage.toString() + ' de ' + pageCount,
+                    ], margin: [80, 70, 0, 0]
+                  }
+                },
+                header: function (currentPage: any, pageCount: any, pageSize: any) {
+                  return [
+                    {
+                      image: 'logo',
+                      width: 100,
+                      absolutePosition: { x: 80, y: 40 }
+                    },
+                    {
+                      image: 'logoLatacunga',
+                      width: 100,
+                      absolutePosition: { x: 413, y: 50 }
+                    },
+                    { canvas: [{ type: 'line', x1: 80, y1: 82, x2: 515, y2: 82, lineWidth: 1 }] },
+                  ]
+                },
+                pageMargins: [80, 89, 80, 134],
                 content: [
-                  {
-                    image: 'logo',
-                    width: 100,
-                    absolutePosition: { x: 80, y: 40 }
-                  },
-                  {
-                    image: 'logoLatacunga',
-                    width: 100,
-                    absolutePosition: { x: 413, y: 50 }
-                  },
-                  { canvas: [{ type: 'line', x1: 0, y1: 47, x2: 435, y2: 47, lineWidth: 1 }] },
                   {
                     alignment: 'center',
                     text: ['HISTORIA CLÍNICA'],
                     style: 'bigheader',
-                    margin: [0, 4, 0, 0]
+                    margin: [0, 0, 0, 5]
                   },
                   {
                     alignment: 'justify',
@@ -413,7 +444,7 @@ export class HistorialesComponent implements OnInit {
                     alignment: 'justify',
                     text: [
                       { text: `Fecha de consulta: `, style: 'subheader' },
-                      { text: `${fechaConsulta}.    `, style: 'normal' },
+                      { text: `${fechaConsulta}`, style: 'normal' },
                     ],
                   },
                   {
@@ -494,7 +525,7 @@ export class HistorialesComponent implements OnInit {
                     table: {
                       widths: ['*', '*', '*', '*', '*', '*', '*', '*', '*'],
                       body: [
-                        [{ text: 'Peso', style: 'subheader' }, { text: 'Talla', style: 'subheader' }, { text: 'IMC', style: 'subheader' }, { text: 'Pr. Sist', style: 'subheader' }, { text: 'Pr. Med', style: 'subheader' }, { text: 'Temp', style: 'subheader' }, { text: 'FC', style: 'subheader' }, { text: 'Sat', style: 'subheader' }, { text: 'FR', style: 'subheader' }],
+                        [{ text: 'Peso', style: 'subheader' }, { text: 'Talla', style: 'subheader' }, { text: 'IMC', style: 'subheader' }, { text: 'Pr. Sist', style: 'subheader' }, { text: 'Dist.', style: 'subheader' }, { text: 'Temp', style: 'subheader' }, { text: 'FC', style: 'subheader' }, { text: 'Sat', style: 'subheader' }, { text: 'FR', style: 'subheader' }],
                         [{ text: this.consultaActual.talla, style: 'normal' }, { text: this.consultaActual.talla, style: 'normal' }, { text: this.consultaActual.imc, style: 'normal' }, { text: this.consultaActual.prsist, style: 'normal' }, { text: this.consultaActual.prdist, style: 'normal' }, { text: this.consultaActual.temp, style: 'normal' }, { text: this.consultaActual.fc, style: 'normal' }, { text: this.consultaActual.sat, style: 'normal' }, { text: this.consultaActual.fr, style: 'normal' }]
                       ]
                     },
@@ -574,9 +605,10 @@ export class HistorialesComponent implements OnInit {
                     text: [
                       { text: `${consulta.tratamiento}`, style: 'normal' },
                     ],
-                    margin: [0, 1, 0, 0]
-                  },
-                ],
+                    margin: [0, 1, 0, 100]
+                  }
+                ]
+                ,
                 styles: {
                   bigheader: {
                     fontSize: 14,
@@ -618,7 +650,7 @@ export class HistorialesComponent implements OnInit {
       this.consultaActual = resp;
       const moment = require('moment-timezone');
       const opciones: any = { year: 'numeric', month: 'long', day: 'numeric' };
-      let fechaConsulta = moment(this.consultaActual.fecha).locale('es').format('LL');
+      let fechaConsulta = this.consultaActual.fecha;
       const fechaComputador = moment();
       const fechaActualEcuador = fechaComputador.tz('America/Guayaquil').format('YYYY/MM/DD');
       let fechaActual = new Date(fechaActualEcuador);
@@ -684,7 +716,7 @@ export class HistorialesComponent implements OnInit {
                     alignment: 'justify',
                     text: [
                       { text: `Fecha de consulta: `, style: 'subheader' },
-                      { text: `${this.fechaConsultaActual}.    `, style: 'normal' },
+                      { text: `${this.fechaConsultaActual}`, style: 'normal' },
                     ],
                   },
                   {
@@ -765,7 +797,7 @@ export class HistorialesComponent implements OnInit {
                     table: {
                       widths: ['*', '*', '*', '*', '*', '*', '*', '*', '*'],
                       body: [
-                        [{ text: 'Peso', style: 'subheader' }, { text: 'Talla', style: 'subheader' }, { text: 'IMC', style: 'subheader' }, { text: 'Pr. Sist', style: 'subheader' }, { text: 'Pr. Med', style: 'subheader' }, { text: 'Temp', style: 'subheader' }, { text: 'FC', style: 'subheader' }, { text: 'Sat', style: 'subheader' }, { text: 'FR', style: 'subheader' }],
+                        [{ text: 'Peso', style: 'subheader' }, { text: 'Talla', style: 'subheader' }, { text: 'IMC', style: 'subheader' }, { text: 'Pr. Sist', style: 'subheader' }, { text: 'Dist.', style: 'subheader' }, { text: 'Temp', style: 'subheader' }, { text: 'FC', style: 'subheader' }, { text: 'Sat', style: 'subheader' }, { text: 'FR', style: 'subheader' }],
                         [{ text: this.consultaActual.talla, style: 'normal' }, { text: this.consultaActual.talla, style: 'normal' }, { text: this.consultaActual.imc, style: 'normal' }, { text: this.consultaActual.prsist, style: 'normal' }, { text: this.consultaActual.prdist, style: 'normal' }, { text: this.consultaActual.temp, style: 'normal' }, { text: this.consultaActual.fc, style: 'normal' }, { text: this.consultaActual.sat, style: 'normal' }, { text: this.consultaActual.fr, style: 'normal' }]
                       ]
                     },

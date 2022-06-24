@@ -947,11 +947,7 @@ export class AtencionComponent implements OnInit {
         }
       }
     });
-    this.fechaConsulta = '';
-    for (let i = 0; i < 10; i++) {
-      const element = fechaConsulta.toString()[i];
-      this.fechaConsulta = this.fechaConsulta + element;
-    }
+    this.fechaConsulta = fechaConsulta;
     this.abrirTablaUpdateConsulta();
   }
 
