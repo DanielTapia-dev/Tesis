@@ -118,6 +118,7 @@ export class AtencionComponent implements OnInit {
 
   ngOnInit(): void {
     this.empleado = this.authService.usuario.usuario;
+    console.log(this.empleado);
     this.cargarCronologias();
     this.cargarCondiciones();
     this.cargarTipos();
@@ -754,7 +755,9 @@ export class AtencionComponent implements OnInit {
     let formConsulta = {
       ...formularioEnfermero.value,
       idHistoria: this.historiaBasePropia.id,
-      idEmpleado: this.empleado.id
+      idEmpleado: this.empleado.id,
+      id_especialidad_per: this.empleado.id_especialidad_per,
+      id_sucursal_per: this.empleado.id_sucursal_per
     }
     if (formularioEnfermero.valid == true && this.inputImc.value != '') {
       console.log(formConsulta);

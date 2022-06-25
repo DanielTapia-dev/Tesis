@@ -219,62 +219,78 @@
       </div>
       <hr class="my-2" />
       <div id="tablaHistorial" class="hidden">
-        <div class="flex flex-col w-full px-4">
-          <table class="table-auto border rounded-md w-full">
-            <thead class="border-b text-xs">
-              <tr class="bg-blue-300">
-                <th class="text-left md:px-4 md:py-2 font-medium border-r">
-                  #
-                </th>
-                <th class="text-left md:px-4 md:py-2 font-medium border-r">
-                  Fecha
-                </th>
-                <th class="text-left md:px-4 md:py-2 font-medium border-r">
-                  Empleado
-                </th>
-                <th class="text-left md:px-4 md:py-2 font-medium border-r">
-                  Acciones
-                </th>
-              </tr>
-            </thead>
-            <tbody class="text-xs">
-              <tr
-                *ngFor="let consulta of consultas; let i = index"
-                class="border-b hover:bg-gray-50"
-              >
-                <td class="border-r md:px-4 md:py-1">
-                  {{ consulta.total - i }}
-                </td>
-                <td class="border-r md:px-4 md:py-1">
-                  {{ consulta.fecha }}
-                </td>
-                <td class="border-r md:px-4 md:py-1">
-                  {{ consulta.empleado }}
-                </td>
-                <td class="border-r md:px-4 md:py-1">
-                  <button
-                    (click)="
-                      cargarConsulta(consulta.fecha, consulta.id, consulta, i)
-                    "
-                    title="Mostrar datos de la consulta"
-                    class="far fa-folder-open text-xl px-1 text-blue-900 hover:scale-125 cursor-pointer transition duration-300 ease-in-out"
-                  ></button>
-                  <button
-                    (click)="
-                      imprimirPdf(consulta.fecha, consulta.id, consulta, i)
-                    "
-                    title="Imprimir pdf"
-                    class="far fa-file-pdf text-xl px-1 text-red-700 hover:scale-125 cursor-pointer transition duration-300 ease-in-out"
-                  ></button>
-                  <button
-                    (click)="peticionBorrar(consulta.id)"
-                    title="Borrar consulta"
-                    class="far fa-trash-alt text-xl px-1 text-red-900 hover:scale-125 cursor-pointer transition duration-300 ease-in-out"
-                  ></button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+        <div class="flex flex-col px-4">
+          <div class="overflow-x-scroll md:overflow-hidden w-full">
+            <table class="border rounded-md w-full">
+              <thead class="border-b text-xs">
+                <tr class="bg-blue-300">
+                  <th class="text-left md:px-4 md:py-2 font-medium border-r">
+                    #
+                  </th>
+                  <th class="text-left md:px-4 md:py-2 font-medium border-r">
+                    Especialidad
+                  </th>
+                  <th class="text-left md:px-4 md:py-2 font-medium border-r">
+                    Sucursal
+                  </th>
+                  <th
+                    class="text-left md:px-4 md:py-2 font-medium border-r w-96"
+                  >
+                    Fecha
+                  </th>
+                  <th class="text-left md:px-4 md:py-2 font-medium border-r">
+                    Empleado
+                  </th>
+                  <th class="text-left md:px-4 md:py-2 font-medium border-r">
+                    Acciones
+                  </th>
+                </tr>
+              </thead>
+              <tbody class="text-xs">
+                <tr
+                  *ngFor="let consulta of consultas; let i = index"
+                  class="border-b hover:bg-gray-50"
+                >
+                  <td class="border-r md:px-4 md:py-1">
+                    {{ consulta.total - i }}
+                  </td>
+                  <td class="border-r md:px-4 md:py-1">
+                    {{ consulta.especialidad }}
+                  </td>
+                  <td class="border-r md:px-4 md:py-1">
+                    {{ consulta.sucursal }}
+                  </td>
+                  <td class="border-r md:px-4 md:py-1 w-96 md:w-auto">
+                    {{ consulta.fecha }}
+                  </td>
+                  <td class="border-r md:px-4 md:py-1">
+                    {{ consulta.empleado }}
+                  </td>
+                  <td class="border-r md:px-4 md:py-1">
+                    <button
+                      (click)="
+                        cargarConsulta(consulta.fecha, consulta.id, consulta, i)
+                      "
+                      title="Mostrar datos de la consulta"
+                      class="far fa-folder-open text-xl px-1 text-blue-900 hover:scale-125 cursor-pointer transition duration-300 ease-in-out"
+                    ></button>
+                    <button
+                      (click)="
+                        imprimirPdf(consulta.fecha, consulta.id, consulta, i)
+                      "
+                      title="Imprimir pdf"
+                      class="far fa-file-pdf text-xl px-1 text-red-700 hover:scale-125 cursor-pointer transition duration-300 ease-in-out"
+                    ></button>
+                    <button
+                      (click)="peticionBorrar(consulta.id)"
+                      title="Borrar consulta"
+                      class="far fa-trash-alt text-xl px-1 text-red-900 hover:scale-125 cursor-pointer transition duration-300 ease-in-out"
+                    ></button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
@@ -391,7 +407,7 @@
                   Pr. Sist
                 </th>
                 <th class="text-left md:px-4 md:py-2 font-medium border-r">
-                  Pr. Dist
+                  Dist
                 </th>
                 <th class="text-left md:px-4 md:py-2 font-medium border-r">
                   Temp

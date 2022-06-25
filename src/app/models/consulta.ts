@@ -26,7 +26,10 @@ export interface Consulta {
     fecha: string;
     empleado: string;
     total: number;
+    especialidad: string;
+    sucursal: string;
     descripcion: string;
+    titulo: string;
 }
 
 export class ConsultaModel {
@@ -57,7 +60,10 @@ export class ConsultaModel {
     fecha: string;
     empleado: string;
     total: number;
+    especialidad: string;
+    sucursal: string;
     descripcion: string;
+    titulo: string;
 
     constructor() {
         this.id = 0;
@@ -87,6 +93,9 @@ export class ConsultaModel {
         this.fecha = '';
         this.empleado = '';
         this.total = 0;
+        this.especialidad = '';
+        this.sucursal = '';
         this.descripcion = '';
+        this.titulo = '';
     }
 }

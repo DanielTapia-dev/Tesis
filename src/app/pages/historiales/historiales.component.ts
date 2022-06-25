@@ -384,19 +384,20 @@ export class HistorialesComponent implements OnInit {
                     return [
                       {
                         table: {
-                          widths: [200],
+                          widths: [190],
                           headerRows: 1,
                           body: [
                             [{ text: ``, style: 'tableHeader' }],
-                            [{ text: `Dr. Daniel Tapia\nMédico general`, alignment: 'center' }],
+                            [{ text: `${consulta.empleado}\n${consulta.titulo}`, alignment: 'center', style: 'firma' }],
                           ]
                         },
                         layout: 'headerLineOnly',
-                        margin: [200, 50, 0, 0]
+                        margin: [205, 50, 0, 0]
                       },
                       {
                         text: `${currentPage.toString()} de ${pageCount}`,
-                        margin: [80, 0, 0, 0]
+                        style: 'firma',
+                        margin: [60, 0, 0, 0]
                       },
                       ,
                     ]
@@ -404,7 +405,7 @@ export class HistorialesComponent implements OnInit {
                   return {
                     columns: [
                       currentPage.toString() + ' de ' + pageCount,
-                    ], margin: [80, 70, 0, 0]
+                    ], margin: [60, 70, 0, 0], style: 'firma'
                   }
                 },
                 header: function (currentPage: any, pageCount: any, pageSize: any) {
@@ -412,17 +413,17 @@ export class HistorialesComponent implements OnInit {
                     {
                       image: 'logo',
                       width: 100,
-                      absolutePosition: { x: 80, y: 40 }
+                      absolutePosition: { x: 60, y: 40 }
                     },
                     {
                       image: 'logoLatacunga',
                       width: 100,
-                      absolutePosition: { x: 413, y: 50 }
+                      absolutePosition: { x: 433, y: 50 }
                     },
-                    { canvas: [{ type: 'line', x1: 80, y1: 82, x2: 515, y2: 82, lineWidth: 1 }] },
+                    { canvas: [{ type: 'line', x1: 60, y1: 82, x2: 535, y2: 82, lineWidth: 1 }] },
                   ]
                 },
-                pageMargins: [80, 89, 80, 134],
+                pageMargins: [60, 89, 60, 134],
                 content: [
                   {
                     alignment: 'center',
@@ -626,6 +627,10 @@ export class HistorialesComponent implements OnInit {
                     fontSize: 11,
                     bold: false
                   },
+                  firma: {
+                    fontSize: 10,
+                    bold: false
+                  },
                   small: {
                     fontSize: 10,
                     bold: false
@@ -647,6 +652,7 @@ export class HistorialesComponent implements OnInit {
 
   imprimirPdf2() {
     this.consultasService.obtenerConsulta(this.consultaActual.id).subscribe(resp => {
+      const consultaPdf = this.consultaActual;
       this.consultaActual = resp;
       const moment = require('moment-timezone');
       const opciones: any = { year: 'numeric', month: 'long', day: 'numeric' };
@@ -682,25 +688,59 @@ export class HistorialesComponent implements OnInit {
               } else {
                 this.tipoActual = '';
               }
+              console.log(`${this.consultaActual.empleado}\n${this.consultaActual.titulo}`);
               const dd: any = {
-                pageMargins: [80, 40, 80, 40],
+                footer: function (currentPage: any, pageCount: any) {
+                  if (currentPage == pageCount) {
+                    return [
+                      {
+                        table: {
+                          widths: [190],
+                          headerRows: 1,
+                          body: [
+                            [{ text: ``, style: 'tableHeader' }],
+                            [{ text: `${consultaPdf.empleado}\n${consultaPdf.titulo}`, alignment: 'center', style: 'firma' }],
+                          ]
+                        },
+                        layout: 'headerLineOnly',
+                        margin: [205, 50, 0, 0]
+                      },
+                      {
+                        text: `${currentPage.toString()} de ${pageCount}`,
+                        style: 'firma',
+                        margin: [60, 0, 0, 0]
+                      },
+                      ,
+                    ]
+                  }
+                  return {
+                    columns: [
+                      currentPage.toString() + ' de ' + pageCount,
+                    ], margin: [60, 70, 0, 0], style: 'firma'
+                  }
+                },
+                header: function (currentPage: any, pageCount: any, pageSize: any) {
+                  return [
+                    {
+                      image: 'logo',
+                      width: 100,
+                      absolutePosition: { x: 60, y: 40 }
+                    },
+                    {
+                      image: 'logoLatacunga',
+                      width: 100,
+                      absolutePosition: { x: 433, y: 50 }
+                    },
+                    { canvas: [{ type: 'line', x1: 60, y1: 82, x2: 535, y2: 82, lineWidth: 1 }] },
+                  ]
+                },
+                pageMargins: [60, 89, 60, 134],
                 content: [
-                  {
-                    image: 'logo',
-                    width: 100,
-                    absolutePosition: { x: 80, y: 40 }
-                  },
-                  {
-                    image: 'logoLatacunga',
-                    width: 100,
-                    absolutePosition: { x: 413, y: 50 }
-                  },
-                  { canvas: [{ type: 'line', x1: 0, y1: 47, x2: 435, y2: 47, lineWidth: 1 }] },
                   {
                     alignment: 'center',
                     text: ['HISTORIA CLÍNICA'],
                     style: 'bigheader',
-                    margin: [0, 4, 0, 0]
+                    margin: [0, 0, 0, 5]
                   },
                   {
                     alignment: 'justify',
@@ -895,6 +935,10 @@ export class HistorialesComponent implements OnInit {
                   },
                   normal: {
                     fontSize: 11,
+                    bold: false
+                  },
+                  firma: {
+                    fontSize: 10,
                     bold: false
                   },
                   small: {
