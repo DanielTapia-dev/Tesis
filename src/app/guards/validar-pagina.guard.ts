@@ -16,7 +16,7 @@ export class ValidarPaginaGuard implements CanActivate, CanLoad {
   }
 
   canActivate(): Observable<boolean> | boolean {
-    if (this.authService.usuario.usuario.tipo == 'Médico' || this.authService.usuario.usuario.tipo == 'Administrador') {
+    if (this.authService.usuario.usuario.tipo == 'Médico' || this.authService.usuario.usuario.tipo == 'Administrador' || this.authService.usuario.usuario.tipo == 'Archivo') {
       return true;
     } else {
       this.router.navigateByUrl('/');
@@ -24,7 +24,7 @@ export class ValidarPaginaGuard implements CanActivate, CanLoad {
     }
   }
   canLoad(): Observable<boolean> | boolean {
-    if (this.authService.usuario.tipo == 'Médico' || this.authService.usuario.usuario.tipo == 'Administrador') {
+    if (this.authService.usuario.tipo == 'Médico' || this.authService.usuario.usuario.tipo == 'Administrador' || this.authService.usuario.usuario.tipo == 'Archivo') {
       return true;
     } else {
       this.router.navigateByUrl('/');

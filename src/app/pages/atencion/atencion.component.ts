@@ -332,7 +332,6 @@ export class AtencionComponent implements OnInit {
             genero: 'Femenino'
           }
         }
-        console.log(this.historiaSeleccionada.fechanac);
         this.historiaBasePropia.grupo_sanguineo = '';
         this.historiasService.getHistoriasPorId(ciu_per).subscribe(respHistoriaPropia => {
           if (respHistoriaPropia.length == 0) {

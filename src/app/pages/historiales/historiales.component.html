@@ -144,18 +144,7 @@
               <a class="font-light">{{ historiaSeleccionada.genero }}</a>
               <a class="font-semibold">&nbsp;&nbsp;</a>
               <a class="font-semibold">Discapacidad:&nbsp;</a>
-              <div class="flex justify-center">
-                <select
-                  class="text-sm font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-500 focus:outline-none"
-                  aria-label="Default select example"
-                  id="discapacidad"
-                  name="discapacidad"
-                  (change)="cambiarHistoria('discapacidad')"
-                >
-                  <option value="NO">NO</option>
-                  <option value="SI">SI</option>
-                </select>
-              </div>
+              <a class="font-semibold">{{ historiaBasePropia.discapacidad }}</a>
               <a class="font-semibold">&nbsp;&nbsp;</a>
               <a class="font-semibold">Fecha Nacimiento:&nbsp;</a>
               <a class="font-light">{{
@@ -173,25 +162,7 @@
               <a class="font-light">{{ clienteSeleccionado.telefon1 }}</a>
               <a class="font-semibold">&nbsp;&nbsp;</a>
               <a class="font-semibold">T. Sangre:&nbsp;</a>
-              <div class="flex justify-center">
-                <select
-                  class="text-sm font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                  aria-label="Default select example"
-                  id="tipoSangre"
-                  name="tipoSangre"
-                  (change)="cambiarHistoria('grupo_sanguineo')"
-                >
-                  <option value="NN">N/N</option>
-                  <option value="A+">A+</option>
-                  <option value="A-">A-</option>
-                  <option value="B+">B+</option>
-                  <option value="B-">B-</option>
-                  <option value="AB+">AB+</option>
-                  <option value="AB-">AB-</option>
-                  <option value="O+">O+</option>
-                  <option value="O-">O-</option>
-                </select>
-              </div>
+              <a class="font-light">{{ historiaBasePropia.grupo_sanguineo }}</a>
             </div>
             <div
               *ngIf="clienteSeleccionado.descrip != ''"
@@ -201,18 +172,9 @@
               <a class="font-light">{{ clienteSeleccionado.direcci }}</a>
               <a class="font-semibold">&nbsp;&nbsp;</a>
               <a class="font-semibold">Orientación sexual:&nbsp;</a>
-              <div class="flex justify-center">
-                <select
-                  class="text-sm font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                  aria-label="Default select example"
-                  id="orientacionSexual"
-                  name="orientacionSexual"
-                  (change)="cambiarHistoria('orientacion_sexual')"
-                >
-                  <option value="Heterosexual">Heterosexual</option>
-                  <option value="Homosexual">Homosexual</option>
-                </select>
-              </div>
+              <a class="font-semibold">{{
+                historiaBasePropia.orientacion_sexual
+              }}</a>
             </div>
           </div>
         </div>

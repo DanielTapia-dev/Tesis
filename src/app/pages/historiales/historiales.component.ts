@@ -240,12 +240,6 @@ export class HistorialesComponent implements OnInit {
             });
           } else {
             this.historiaBasePropia = respHistoriaPropia[0];
-            this.selectTipoSangre = document.querySelector('#tipoSangre');
-            this.selectTipoSangre.value = this.historiaBasePropia.grupo_sanguineo;
-            this.orientacionSexual = document.querySelector('#orientacionSexual');
-            this.orientacionSexual.value = this.historiaBasePropia.orientacion_sexual;
-            this.discapacidad = document.querySelector('#discapacidad');
-            this.discapacidad.value = this.historiaBasePropia.discapacidad;
             this.edadNueva = document.querySelector('#edad');
           }
           this.abrirTablaHistorial();
