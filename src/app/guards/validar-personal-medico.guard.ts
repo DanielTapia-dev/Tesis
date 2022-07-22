@@ -14,7 +14,7 @@ export class ValidarPersonalMedicoGuard implements CanActivate, CanLoad {
   }
 
   canActivate(): Observable<boolean> | boolean {
-    if (this.authService.usuario.usuario.tipo == 'Médico' || this.authService.usuario.usuario.tipo == 'Enfermero') {
+    if (this.authService.usuario.usuario.tipo == 'Médico' || this.authService.usuario.usuario.tipo == 'Enfermería') {
       return true;
     } else {
       this.router.navigateByUrl('/');
@@ -22,7 +22,7 @@ export class ValidarPersonalMedicoGuard implements CanActivate, CanLoad {
     }
   }
   canLoad(): Observable<boolean> | boolean {
-    if (this.authService.usuario.tipo == 'Médico' || this.authService.usuario.usuario.tipo == 'Enfermero') {
+    if (this.authService.usuario.tipo == 'Médico' || this.authService.usuario.usuario.tipo == 'Enfermería') {
       return true;
     } else {
       this.router.navigateByUrl('/');

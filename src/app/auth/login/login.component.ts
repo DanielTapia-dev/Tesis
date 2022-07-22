@@ -12,8 +12,8 @@ import Swal from 'sweetalert2';
 export class LoginComponent implements OnInit {
 
   LoginForm: FormGroup = this.fb.group({
-    'usuario': ['dtapia', Validators.required],
-    'password': ['danny123', Validators.required]
+    'usuario': ['', Validators.required],
+    'password': ['222222', Validators.required]
   })
 
   constructor(private fb: FormBuilder, private router: Router, private authService: AuthService) { }

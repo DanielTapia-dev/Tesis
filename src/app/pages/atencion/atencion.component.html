@@ -673,7 +673,7 @@
       </div>
     </div>
     <div
-      *ngIf="empleado.tipo == 'Enfermero'"
+      *ngIf="empleado.tipo == 'Enfermería'"
       id="tablaNuevaConsulta"
       class="hidden"
     >
@@ -852,10 +852,16 @@
             <tr class="bg-blue-300">
               <th class="text-left md:px-4 md:py-2 font-medium border-r">#</th>
               <th class="text-left md:px-4 md:py-2 font-medium border-r">
+                Empleado
+              </th>
+              <th class="text-left md:px-4 md:py-2 font-medium border-r">
                 Fecha
               </th>
               <th class="text-left md:px-4 md:py-2 font-medium border-r">
-                Empleado
+                Especialidad
+              </th>
+              <th class="text-left md:px-4 md:py-2 font-medium border-r">
+                Sucursal
               </th>
               <th class="text-left md:px-4 md:py-2 font-medium border-r">
                 Acciones
@@ -870,10 +876,14 @@
               <td class="border-r md:px-4 md:py-1">
                 {{ consulta.total - i }}
               </td>
+              <td class="border-r md:px-4 md:py-1">{{ consulta.empleado }}</td>
               <td class="border-r md:px-4 md:py-1">
                 {{ consulta.fecha }}
               </td>
-              <td class="border-r md:px-4 md:py-1">{{ consulta.empleado }}</td>
+              <td class="border-r md:px-4 md:py-1">
+                {{ consulta.especialidad }}
+              </td>
+              <td class="border-r md:px-4 md:py-1">{{ consulta.sucursal }}</td>
               <td class="border-r md:px-4 md:py-1">
                 <button
                   *ngIf="empleado.tipo == 'Médico'"

@@ -1,7 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { resolve } from 'dns';
+import { EspecialidadModel } from 'src/app/models/especialidad';
+import { SucursalModel } from 'src/app/models/sucursal';
 import { EmpleadosService } from 'src/app/services/empleados.service';
+import { EspecialidadService } from 'src/app/services/especialidad.service';
+import { SucursalService } from 'src/app/services/sucursal.service';
+import { environment } from 'src/environments/environment';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -18,8 +23,10 @@ export class EmpleadosComponent implements OnInit {
     apellido1: ['', Validators.required],
     apellido2: [''],
     tipo: ['', Validators.required],
+    id_especialidad_per: ['', Validators.required],
+    id_sucursal_per: ['', Validators.required],
     titulo_abreviado: ['', Validators.required],
-    foto: [''],
+    foto: [environment.imagenUser],
     password: [''],
     email: ['', [Validators.required, Validators.email]],
     titulo: ['', Validators.required],
@@ -27,6 +34,8 @@ export class EmpleadosComponent implements OnInit {
 
   pathFoto: any = '';
   imagenSubir: any = '';
+  especialidades: EspecialidadModel[] = [];
+  sucursales: SucursalModel[] = [];
 
   //Objetos HTML
   inputPass: any;
@@ -36,7 +45,7 @@ export class EmpleadosComponent implements OnInit {
   btnNuevoEmpleado: any;
   btnAgregarEmpleado: any;
 
-  constructor(private formBuilder: FormBuilder, private empleadosService: EmpleadosService) { }
+  constructor(private formBuilder: FormBuilder, private empleadosService: EmpleadosService, private especialidadService: EspecialidadService, private sucursalesService: SucursalService) { }
 
   ngOnInit(): void {
     this.inputPass = document.querySelector('#inputPass');
@@ -45,6 +54,10 @@ export class EmpleadosComponent implements OnInit {
     this.labelCopiarDatos = document.querySelector('#labelCopiarDatos');
     this.btnNuevoEmpleado = document.querySelector('#btnNuevoEmpleado');
     this.btnAgregarEmpleado = document.querySelector('#btnAgregarEmpleado');
+
+    //Cargando listas iniciales para nuevo empleado
+    this.cargarEspecialidad();
+    this.cargarSucursales();
   }
 
   copiarPass() {
@@ -69,14 +82,29 @@ export class EmpleadosComponent implements OnInit {
     return this.empleadoFormulario.controls[campo].errors && this.empleadoFormulario.controls[campo].touched;
   }
 
+  cargarEspecialidad() {
+    this.especialidadService.obtenerEspecialidades().subscribe(resp => {
+      this.especialidades = resp;
+    });
+  }
+
+  cargarSucursales() {
+    this.sucursalesService.obtenerSucursales().subscribe(resp => {
+      this.sucursales = resp;
+    })
+  }
+
   guardar() {
+    console.log(this.empleadoFormulario.value);
     if (this.empleadoFormulario.invalid) {
       this.empleadoFormulario.markAllAsTouched();
       return;
     }
-    this.empleadoFormulario.patchValue({
-      foto: this.imagenSubir
-    });
+    if (this.imagenSubir != '') {
+      this.empleadoFormulario.patchValue({
+        foto: this.imagenSubir
+      });
+    }
     this.empleadosService.postEmpleado(this.empleadoFormulario.value).subscribe(resp => {
       this.inputPass.value = resp.password;
       this.inputUsuario.value = resp.usuario;
