@@ -589,9 +589,9 @@ export class AtencionComponent implements OnInit {
     this.textObservacionDiagnostico = document.querySelector('#textObservacionDiagnostico');
     this.textTratamiento = document.querySelector('#textTratamiento');
 
-   /*  if (this.selectCodigoCie10.value) {
-      this.selectCodigoCie10.value = null;
-    } */
+    /*  if (this.selectCodigoCie10.value) {
+       this.selectCodigoCie10.value = null;
+     } */
 
     let consultaNueva = {
       id: this.idConsultaActual,
@@ -749,6 +749,17 @@ export class AtencionComponent implements OnInit {
     } else {
       this.inputImc.value = '';
     }
+  }
+
+  GuardarConsultaMedico(formularioMedico: NgForm) {
+    let formConsulta = {
+      ...formularioMedico.value,
+      idHistoria: this.historiaBasePropia.id,
+      idEmpleado: this.empleado.id,
+      id_especialidad_per: this.empleado.id_especialidad_per,
+      id_sucursal_per: this.empleado.id_sucursal_per
+    }
+    console.log(formConsulta);
   }
 
   GuardarConsultaEnfermero(formularioEnfermero: NgForm) {

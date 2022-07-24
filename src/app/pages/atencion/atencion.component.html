@@ -236,441 +236,481 @@
       id="tablaNuevaConsulta"
       class="hidden"
     >
-      <div class="flex flex-col w-full">
-        <h1 class="mx-1 md:mx-9">Fecha de consulta: {{ fechaConsulta }}</h1>
-        <div
-          class="flex flex-row justify-between mx-1 md:mx-9 border border-black overflow-x-scroll"
-        >
+      <form
+        (ngSubmit)="GuardarConsultaMedico(formularioMedico)"
+        #formularioMedico="ngForm"
+      >
+        <div class="flex flex-col w-full">
+          <h1 class="mx-1 md:mx-9">Fecha de consulta: {{ fechaConsulta }}</h1>
           <div
-            (click)="clickMotivoConsulta()"
-            id="btnMontivoConsulta"
-            class="flex flex-col items-center justify-center text-sm md:text-base text-blue-600 bg-slate-200 hover:bg-slate-200 font-medium px-6 py-3 cursor-pointer w-full"
+            class="flex flex-row justify-between mx-1 md:mx-9 border border-black overflow-x-scroll"
           >
-            <i class="fas fa-user-md"></i>
-            <p class="text-center leading-none">Motivo de consulta</p>
+            <div
+              (click)="clickMotivoConsulta()"
+              id="btnMontivoConsulta"
+              class="flex flex-col items-center justify-center text-sm md:text-base text-blue-600 bg-slate-200 hover:bg-slate-200 font-medium px-6 py-3 cursor-pointer w-full"
+            >
+              <i class="fas fa-user-md"></i>
+              <p class="text-center leading-none">Motivo de consulta</p>
+            </div>
+            <div
+              (click)="clickAntecedentes()"
+              id="btnAntecedentes"
+              class="flex flex-col items-center justify-center text-sm md:text-base text-blue-600 bg-white hover:bg-slate-200 font-medium px-6 py-3 cursor-pointer w-full"
+            >
+              <i class="far fa-calendar-plus"></i>
+              <p class="text-center leading-none">Antecedentes</p>
+            </div>
+            <div
+              (click)="clickSignosVitales()"
+              id="btnSignosVitales"
+              class="flex flex-col items-center justify-center text-sm md:text-base text-blue-600 bg-white hover:bg-slate-200 font-medium px-6 py-3 cursor-pointer w-full"
+            >
+              <i class="fas fa-heartbeat"></i>
+              <p class="text-center leading-none">Signos Vitales</p>
+            </div>
+            <div
+              (click)="clickExamenFisico()"
+              id="btnExamenFisico"
+              class="flex flex-col items-center justify-center text-sm md:text-base text-blue-600 bg-white hover:bg-slate-200 font-medium px-6 py-3 cursor-pointer w-full"
+            >
+              <i class="fas fa-child"></i>
+              <p class="text-center leading-none">Examen Físico</p>
+            </div>
+            <div
+              (click)="clickDiagnostico()"
+              id="btnDiagnostico"
+              class="flex flex-col items-center justify-center text-sm md:text-base text-blue-600 bg-white hover:bg-slate-200 font-medium px-6 py-3 cursor-pointer w-full"
+            >
+              <i class="fas fa-stethoscope"></i>
+              <p class="text-center leading-none">Diagnostico</p>
+            </div>
+            <div
+              (click)="clickTratamiento()"
+              id="btnTratamiento"
+              class="flex flex-col items-center justify-center text-sm md:text-base text-blue-600 bg-white hover:bg-slate-200 font-medium px-6 py-3 cursor-pointer w-full"
+            >
+              <i class="fas fa-capsules"></i>
+              <p class="text-center leading-none">Tratamiento/Prescipción</p>
+            </div>
           </div>
-          <div
-            (click)="clickAntecedentes()"
-            id="btnAntecedentes"
-            class="flex flex-col items-center justify-center text-sm md:text-base text-blue-600 bg-white hover:bg-slate-200 font-medium px-6 py-3 cursor-pointer w-full"
-          >
-            <i class="far fa-calendar-plus"></i>
-            <p class="text-center leading-none">Antecedentes</p>
+          <div id="motivoConsulta" class="w-full">
+            <div
+              class="flex flex-col border-x border-b border-black items-start mx-1 md:mx-9 px-2 py-2"
+            >
+              <input
+                id="inputMotivoConsulta"
+                class="w-full my-1 p-2 outline-blue-600"
+                type="text"
+                ngModel
+                id="motivo_atencion"
+                name="motivo_atencion"
+                required
+                placeholder="Motivo de atención"
+              />
+              <textarea
+                class="w-full my-1 p-2 outline-blue-600"
+                type="text"
+                placeholder="Enfermedad actual"
+                id="enfermedad_actual"
+                name="enfermedad_actual"
+                required
+                cols="30"
+                rows="6"
+              ></textarea>
+            </div>
           </div>
-          <div
-            (click)="clickSignosVitales()"
-            id="btnSignosVitales"
-            class="flex flex-col items-center justify-center text-sm md:text-base text-blue-600 bg-white hover:bg-slate-200 font-medium px-6 py-3 cursor-pointer w-full"
-          >
-            <i class="fas fa-heartbeat"></i>
-            <p class="text-center leading-none">Signos Vitales</p>
+          <div id="antecedentes" class="w-full hidden">
+            <div
+              class="flex flex-col border-x border-b border-black items-start mx-1 md:mx-9 px-2 py-2"
+            >
+              <textarea
+                class="w-full my-1 p-2 outline-blue-600"
+                type="text"
+                placeholder="Antecedentes"
+                id="antecedentes"
+                name="antecedentes"
+                required
+                ngModel
+                cols="30"
+                rows="6"
+              ></textarea>
+            </div>
           </div>
-          <div
-            (click)="clickExamenFisico()"
-            id="btnExamenFisico"
-            class="flex flex-col items-center justify-center text-sm md:text-base text-blue-600 bg-white hover:bg-slate-200 font-medium px-6 py-3 cursor-pointer w-full"
-          >
-            <i class="fas fa-child"></i>
-            <p class="text-center leading-none">Examen Físico</p>
-          </div>
-          <div
-            (click)="clickDiagnostico()"
-            id="btnDiagnostico"
-            class="flex flex-col items-center justify-center text-sm md:text-base text-blue-600 bg-white hover:bg-slate-200 font-medium px-6 py-3 cursor-pointer w-full"
-          >
-            <i class="fas fa-stethoscope"></i>
-            <p class="text-center leading-none">Diagnostico</p>
-          </div>
-          <div
-            (click)="clickTratamiento()"
-            id="btnTratamiento"
-            class="flex flex-col items-center justify-center text-sm md:text-base text-blue-600 bg-white hover:bg-slate-200 font-medium px-6 py-3 cursor-pointer w-full"
-          >
-            <i class="fas fa-capsules"></i>
-            <p class="text-center leading-none">Tratamiento/Prescipción</p>
-          </div>
-        </div>
-        <div id="motivoConsulta" class="w-full">
-          <div
-            class="flex flex-col border-x border-b border-black items-start mx-1 md:mx-9 px-2 py-2"
-          >
-            <input
-              id="inputMotivoConsulta"
-              class="w-full my-1 p-2 outline-blue-600"
-              type="text"
-              placeholder="Motivo de atención"
-            />
-            <textarea
-              class="w-full my-1 p-2 outline-blue-600"
-              type="text"
-              placeholder="Enfermedad actual"
-              id="textEnfermedadActual"
-              cols="30"
-              rows="6"
-            ></textarea>
-          </div>
-        </div>
-        <div id="antecedentes" class="w-full hidden">
-          <div
-            class="flex flex-col border-x border-b border-black items-start mx-1 md:mx-9 px-2 py-2"
-          >
-            <textarea
-              class="w-full my-1 p-2 outline-blue-600"
-              type="text"
-              placeholder="Antecedentes"
-              id="textAntecedentes"
-              cols="30"
-              rows="6"
-            ></textarea>
-          </div>
-        </div>
-        <div id="signosVitales" class="w-full hidden">
-          <div
-            class="flex flex-col border-x border-b border-black items-start mx-1 md:mx-9 px-2 py-2"
-          >
-            <div class="flex flex-row justify-center items-center w-full">
-              <div class="overflow-x-scroll border-x border-t bg-white">
-                <table class="table-auto border w-full">
-                  <thead class="border-b text-xs">
-                    <tr class="bg-gray-100">
-                      <th class="text-left p-4 font-medium border-r">
-                        Peso (kg)
-                      </th>
-                      <th class="text-left p-4 font-medium border-r">
-                        Talla (m)
-                      </th>
-                      <th class="text-left p-4 font-medium border-r">IMC</th>
-                      <th class="text-left p-4 font-medium border-r">
-                        Pr. Sist
-                      </th>
-                      <th class="text-left p-4 font-medium border-r">Dist.</th>
-                      <th class="text-left p-4 font-medium border-r">Temp</th>
-                      <th class="text-left p-4 font-medium border-r">FC</th>
-                      <th class="text-left p-4 font-medium border-r">Sat</th>
-                      <th class="text-left p-4 font-medium">FR</th>
-                    </tr>
-                  </thead>
-                  <tbody class="text-xs">
-                    <tr class="border-b hover:bg-gray-50">
-                      <td class="border-r">
-                        <input
-                          ngModel
-                          name="peso"
-                          type="number"
-                          required
-                          autocomplete="off"
-                          (change)="calcularIMC()"
-                          id="peso"
-                          class="w-full my-1 p-2 outline-blue-600"
-                          type="text"
-                        />
-                      </td>
-                      <td class="border-r">
-                        <input
-                          ngModel
-                          name="talla"
-                          type="number"
-                          autocomplete="off"
-                          required
-                          (change)="calcularIMC()"
-                          id="talla"
-                          class="w-full my-1 p-2 outline-blue-600"
-                          type="text"
-                        />
-                      </td>
-                      <td class="border-r">
-                        <input
-                          ngModel
-                          name="imc"
-                          autocomplete="off"
-                          id="imc"
-                          readonly
-                          class="w-full my-1 p-2 outline-none"
-                          type="text"
-                        />
-                      </td>
-                      <td class="border-r">
-                        <input
-                          ngModel
-                          name="prsist"
-                          autocomplete="off"
-                          required
-                          id="prsist"
-                          class="w-full my-1 p-2 outline-blue-600"
-                          type="text"
-                        />
-                      </td>
-                      <td class="border-r">
-                        <input
-                          ngModel
-                          name="prdist"
-                          autocomplete="off"
-                          required
-                          id="prdist"
-                          class="w-full my-1 p-2 outline-blue-600"
-                          type="text"
-                        />
-                      </td>
-                      <td class="border-r">
-                        <input
-                          ngModel
-                          name="temp"
-                          autocomplete="off"
-                          required
-                          id="temp"
-                          class="w-full my-1 p-2 outline-blue-600"
-                          type="text"
-                        />
-                      </td>
-                      <td class="border-r">
-                        <input
-                          ngModel
-                          name="fc"
-                          required
-                          autocomplete="off"
-                          id="fc"
-                          class="w-full my-1 p-2 outline-blue-600"
-                          type="text"
-                        />
-                      </td>
-                      <td class="border-r">
-                        <input
-                          ngModel
-                          name="sat"
-                          autocomplete="off"
-                          required
-                          id="sat"
-                          class="w-full my-1 p-2 outline-blue-600"
-                          type="text"
-                        />
-                      </td>
-                      <td class="">
-                        <input
-                          ngModel
-                          name="fr"
-                          autocomplete="off"
-                          required
-                          id="fr"
-                          class="w-full my-1 p-2 outline-blue-600"
-                          type="text"
-                        />
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+          <div id="signosVitales" class="w-full hidden">
+            <div
+              class="flex flex-col border-x border-b border-black items-start mx-1 md:mx-9 px-2 py-2"
+            >
+              <div class="flex flex-row justify-center items-center w-full">
+                <div class="overflow-x-scroll border-x border-t bg-white">
+                  <table class="table-auto border w-full">
+                    <thead class="border-b text-xs">
+                      <tr class="bg-gray-100">
+                        <th class="text-left p-4 font-medium border-r">
+                          Peso (kg)
+                        </th>
+                        <th class="text-left p-4 font-medium border-r">
+                          Talla (m)
+                        </th>
+                        <th class="text-left p-4 font-medium border-r">IMC</th>
+                        <th class="text-left p-4 font-medium border-r">
+                          Pr. Sist
+                        </th>
+                        <th class="text-left p-4 font-medium border-r">
+                          Dist.
+                        </th>
+                        <th class="text-left p-4 font-medium border-r">Temp</th>
+                        <th class="text-left p-4 font-medium border-r">FC</th>
+                        <th class="text-left p-4 font-medium border-r">Sat</th>
+                        <th class="text-left p-4 font-medium">FR</th>
+                      </tr>
+                    </thead>
+                    <tbody class="text-xs">
+                      <tr class="border-b hover:bg-gray-50">
+                        <td class="border-r">
+                          <input
+                            ngModel
+                            name="peso"
+                            type="number"
+                            required
+                            autocomplete="off"
+                            (change)="calcularIMC()"
+                            id="peso"
+                            class="w-full my-1 p-2 outline-blue-600"
+                            type="text"
+                          />
+                        </td>
+                        <td class="border-r">
+                          <input
+                            ngModel
+                            name="talla"
+                            type="number"
+                            autocomplete="off"
+                            required
+                            (change)="calcularIMC()"
+                            id="talla"
+                            class="w-full my-1 p-2 outline-blue-600"
+                            type="text"
+                          />
+                        </td>
+                        <td class="border-r">
+                          <input
+                            ngModel
+                            name="imc"
+                            autocomplete="off"
+                            id="imc"
+                            readonly
+                            class="w-full my-1 p-2 outline-none"
+                            type="text"
+                          />
+                        </td>
+                        <td class="border-r">
+                          <input
+                            ngModel
+                            name="prsist"
+                            autocomplete="off"
+                            required
+                            id="prsist"
+                            class="w-full my-1 p-2 outline-blue-600"
+                            type="text"
+                          />
+                        </td>
+                        <td class="border-r">
+                          <input
+                            ngModel
+                            name="prdist"
+                            autocomplete="off"
+                            required
+                            id="prdist"
+                            class="w-full my-1 p-2 outline-blue-600"
+                            type="text"
+                          />
+                        </td>
+                        <td class="border-r">
+                          <input
+                            ngModel
+                            name="temp"
+                            autocomplete="off"
+                            required
+                            id="temp"
+                            class="w-full my-1 p-2 outline-blue-600"
+                            type="text"
+                          />
+                        </td>
+                        <td class="border-r">
+                          <input
+                            ngModel
+                            name="fc"
+                            required
+                            autocomplete="off"
+                            id="fc"
+                            class="w-full my-1 p-2 outline-blue-600"
+                            type="text"
+                          />
+                        </td>
+                        <td class="border-r">
+                          <input
+                            ngModel
+                            name="sat"
+                            autocomplete="off"
+                            required
+                            id="sat"
+                            class="w-full my-1 p-2 outline-blue-600"
+                            type="text"
+                          />
+                        </td>
+                        <td class="">
+                          <input
+                            ngModel
+                            name="fr"
+                            autocomplete="off"
+                            required
+                            id="fr"
+                            class="w-full my-1 p-2 outline-blue-600"
+                            type="text"
+                          />
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div id="examenFisico" class="w-full hidden">
-          <div
-            class="flex flex-col border-x border-b border-black items-start mx-1 md:mx-9 px-2 py-2"
-          >
-            <textarea
-              class="w-full my-1 p-2 outline-blue-600"
-              type="text"
-              placeholder="Examen Físico"
-              id="textExamenFisico"
-              cols="30"
-              rows="6"
-            ></textarea>
-            <textarea
-              class="w-full my-1 p-2 outline-blue-600"
-              type="text"
-              placeholder="Resultados de examenes"
-              id="textResultadosExamenes"
-              cols="30"
-              rows="6"
-            ></textarea>
-          </div>
-        </div>
-        <div id="diagnostico" class="w-full hidden">
-          <div
-            class="flex flex-col border-x border-b border-black items-start mx-1 md:mx-9 px-2 py-2"
-          >
-            <div class="mx-2 mt-1 flex flex-row">
-              <label
-                (click)="cambiarBuscadorCie10('codigo')"
-                class="font-semibold text-blue-900"
-                ><input
-                  class="mr-1 rounded-full"
-                  type="radio"
-                  name="buscadorCie10"
-                  id="checkCodigoCie10"
-                  checked
-                />Codigo</label
-              >
-              <label
-                (click)="cambiarBuscadorCie10('descripcion')"
-                class="font-semibold text-blue-900"
-                ><input
-                  class="mx-1 rounded-full"
-                  type="radio"
-                  name="buscadorCie10"
-                  id="checkCodigoDescripcion"
-                />Descripción</label
-              >
+          <div id="examenFisico" class="w-full hidden">
+            <div
+              class="flex flex-col border-x border-b border-black items-start mx-1 md:mx-9 px-2 py-2"
+            >
+              <textarea
+                class="w-full my-1 p-2 outline-blue-600"
+                type="text"
+                placeholder="Examen Físico"
+                id="examen_fisico"
+                name="examen_fisico"
+                required
+                ngModel
+                cols="30"
+                rows="6"
+              ></textarea>
+              <textarea
+                class="w-full my-1 p-2 outline-blue-600"
+                type="text"
+                placeholder="Resultados de examenes"
+                id="resultado_examenes"
+                name="resultado_examenes"
+                required
+                ngModel
+                cols="30"
+                rows="6"
+              ></textarea>
             </div>
-            <div class="flex flex-col md:flex-row w-full">
-              <div class="flex flex-col w-full md:w-1/2 pr-3">
-                <div id="inputBuscadorCodigoCie10" class="">
-                  <div class="flex flex-col">
-                    <div
-                      class="flex flex-row mt-2 px-1 outline outline-2 outline-blue-900 rounded-lg mb-2"
-                    >
-                      <button
-                        (click)="onEnterCIE10()"
-                        class="fas fa-search text-xl px-1 text-blue-900"
-                      ></button>
-                      <input
-                        id="inputCodigoCie"
-                        placeholder="Código CIE10"
-                        class="w-full bg-inherit outline-0 ml-1"
+          </div>
+          <div id="diagnostico" class="w-full hidden">
+            <div
+              class="flex flex-col border-x border-b border-black items-start mx-1 md:mx-9 px-2 py-2"
+            >
+              <div class="mx-2 mt-1 flex flex-row">
+                <label
+                  (click)="cambiarBuscadorCie10('codigo')"
+                  class="font-semibold text-blue-900"
+                  ><input
+                    class="mr-1 rounded-full"
+                    type="radio"
+                    name="buscadorCie10"
+                    id="checkCodigoCie10"
+                    checked
+                  />Codigo</label
+                >
+                <label
+                  (click)="cambiarBuscadorCie10('descripcion')"
+                  class="font-semibold text-blue-900"
+                  ><input
+                    class="mx-1 rounded-full"
+                    type="radio"
+                    name="buscadorCie10"
+                    id="checkCodigoDescripcion"
+                  />Descripción</label
+                >
+              </div>
+              <div class="flex flex-col md:flex-row w-full">
+                <div class="flex flex-col w-full md:w-1/2 pr-3">
+                  <div id="inputBuscadorCodigoCie10" class="">
+                    <div class="flex flex-col">
+                      <div
+                        class="flex flex-row mt-2 px-1 outline outline-2 outline-blue-900 rounded-lg mb-2"
+                      >
+                        <button
+                          (click)="onEnterCIE10()"
+                          class="fas fa-search text-xl px-1 text-blue-900"
+                        ></button>
+                        <input
+                          id="inputCodigoCie"
+                          placeholder="Código CIE10"
+                          class="w-full bg-inherit outline-0 ml-1"
+                          type="text"
+                          (keyup.enter)="onEnterCIE10()"
+                          autocomplete="off"
+                        />
+                        <select
+                          id="selectCodigoCie10"
+                          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                          name="selectCodigoCie10"
+                          required
+                          ngModel
+                          (change)="asignarTextDiagnostico('')"
+                        >
+                          <option *ngIf="enfermedadesCie.length == 0" selected>
+                            Seleccione un código
+                          </option>
+                          <option
+                            *ngFor="let enfermedadCie of enfermedadesCie"
+                            [value]="enfermedadCie.codigo_cie10"
+                          >
+                            {{ enfermedadCie.codigo_cie10 }}
+                          </option>
+                        </select>
+                      </div>
+                      <textarea
+                        class="w-full my-1 p-2 outline-blue-600"
                         type="text"
-                        (keyup.enter)="onEnterCIE10()"
-                        autocomplete="off"
-                      />
+                        placeholder="Descripción"
+                        id="textEnfermedadActualDiagnostico"
+                        cols="30"
+                        readonly
+                        rows="6"
+                      ></textarea>
+                    </div>
+                  </div>
+                  <div id="inputBuscadorDescripcionCie10" class="hidden">
+                    <div class="flex flex-col">
+                      <div
+                        class="flex flex-row mt-2 px-1 outline outline-2 outline-blue-900 rounded-lg mb-2"
+                      >
+                        <button
+                          (click)="onEnterCIE10()"
+                          class="fas fa-search text-xl px-1 text-blue-900"
+                        ></button>
+                        <input
+                          id="inputDescripcionCie"
+                          placeholder="Descripción CIE10"
+                          class="w-full bg-inherit outline-0 ml-1"
+                          type="text"
+                          (keyup.enter)="onEnterCIE10()"
+                          autocomplete="off"
+                        />
+                      </div>
+                      <label class="pl-2 hidden" id="labelDescipcionCie10"
+                        >Código</label
+                      >
                       <select
-                        id="selectCodigoCie10"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        (change)="asignarTextDiagnostico('')"
+                        id="selectDescripcionCie10"
+                        name="selectDescripcionCie10"
+                        required
+                        ngModel
+                        class="hidden bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full h-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        (change)="cambiarLabel('')"
                       >
                         <option *ngIf="enfermedadesCie.length == 0" selected>
-                          Seleccione un código
+                          Seleccione una descripción
                         </option>
                         <option
                           *ngFor="let enfermedadCie of enfermedadesCie"
                           [value]="enfermedadCie.codigo_cie10"
                         >
-                          {{ enfermedadCie.codigo_cie10 }}
+                          {{ enfermedadCie.descripcion }}
                         </option>
                       </select>
-                    </div>
-                    <textarea
-                      class="w-full my-1 p-2 outline-blue-600"
-                      type="text"
-                      placeholder="Descripción"
-                      id="textEnfermedadActualDiagnostico"
-                      cols="30"
-                      readonly
-                      rows="6"
-                    ></textarea>
-                  </div>
-                </div>
-                <div id="inputBuscadorDescripcionCie10" class="hidden">
-                  <div class="flex flex-col">
-                    <div
-                      class="flex flex-row mt-2 px-1 outline outline-2 outline-blue-900 rounded-lg mb-2"
-                    >
-                      <button
-                        (click)="onEnterCIE10()"
-                        class="fas fa-search text-xl px-1 text-blue-900"
-                      ></button>
-                      <input
-                        id="inputDescripcionCie"
-                        placeholder="Descripción CIE10"
-                        class="w-full bg-inherit outline-0 ml-1"
+                      <textarea
+                        class="w-full my-1 p-2 outline-blue-600"
                         type="text"
-                        (keyup.enter)="onEnterCIE10()"
-                        autocomplete="off"
-                      />
+                        placeholder="Descripción"
+                        id="textEnfermedadActualDiagnosticoDescripcion"
+                        readonly
+                        cols="30"
+                        rows="6"
+                      ></textarea>
                     </div>
-                    <label class="pl-2 hidden" id="labelDescipcionCie10"
-                      >Código</label
-                    >
-                    <select
-                      id="selectDescripcionCie10"
-                      class="hidden bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full h-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                      (change)="cambiarLabel('')"
-                    >
-                      <option *ngIf="enfermedadesCie.length == 0" selected>
-                        Seleccione una descripción
-                      </option>
-                      <option
-                        *ngFor="let enfermedadCie of enfermedadesCie"
-                        [value]="enfermedadCie.codigo_cie10"
-                      >
-                        {{ enfermedadCie.descripcion }}
-                      </option>
-                    </select>
-                    <textarea
-                      class="w-full my-1 p-2 outline-blue-600"
-                      type="text"
-                      placeholder="Descripción"
-                      id="textEnfermedadActualDiagnosticoDescripcion"
-                      readonly
-                      cols="30"
-                      rows="6"
-                    ></textarea>
                   </div>
                 </div>
-              </div>
-              <div class="flex flex-col w-full md:w-1/2">
-                <select
-                  id="selectCronologia"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg mb-2 focus:ring-blue-500 focus:border-blue-500 w-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                >
-                  <option
-                    *ngFor="let cronologia of cronologias"
-                    [value]="cronologia.id"
+                <div class="flex flex-col w-full md:w-1/2">
+                  <select
+                    id="id_cronologia_per"
+                    name="id_cronologia_per"
+                    required
+                    ngModel
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg mb-2 focus:ring-blue-500 focus:border-blue-500 w-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   >
-                    {{ cronologia.nombre }}
-                  </option>
-                </select>
-                <select
-                  id="selectCondicion"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg mb-2 focus:ring-blue-500 focus:border-blue-500 w-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                >
-                  <option
-                    *ngFor="let condicion of condiciones"
-                    [value]="condicion.id"
+                    <option
+                      *ngFor="let cronologia of cronologias"
+                      [value]="cronologia.id"
+                    >
+                      {{ cronologia.nombre }}
+                    </option>
+                  </select>
+                  <select
+                    id="id_condicion_per"
+                    name="id_condicion_per"
+                    required
+                    ngModel
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg mb-2 focus:ring-blue-500 focus:border-blue-500 w-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   >
-                    {{ condicion.nombre }}
-                  </option>
-                </select>
-                <select
-                  id="selectTipo"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg mb-2 focus:ring-blue-500 focus:border-blue-500 w-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                >
-                  <option *ngFor="let tipo of tipos" [value]="tipo.id">
-                    {{ tipo.nombre }}
-                  </option>
-                </select>
-                <textarea
-                  class="w-full my-1 p-2 outline-blue-600"
-                  type="text"
-                  placeholder="Observación:"
-                  id="textObservacionDiagnostico"
-                  cols="30"
-                  rows="6"
-                ></textarea>
+                    <option
+                      *ngFor="let condicion of condiciones"
+                      [value]="condicion.id"
+                    >
+                      {{ condicion.nombre }}
+                    </option>
+                  </select>
+                  <select
+                    id="id_tipo_per"
+                    name="id_tipo_per"
+                    required
+                    ngModel
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg mb-2 focus:ring-blue-500 focus:border-blue-500 w-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  >
+                    <option *ngFor="let tipo of tipos" [value]="tipo.id">
+                      {{ tipo.nombre }}
+                    </option>
+                  </select>
+                  <textarea
+                    class="w-full my-1 p-2 outline-blue-600"
+                    type="text"
+                    placeholder="Observación:"
+                    id="textObservacionDiagnostico"
+                    cols="30"
+                    rows="6"
+                  ></textarea>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div id="tratamiento" class="w-full hidden">
-          <div
-            class="flex flex-col border-x border-b border-black items-start mx-1 md:mx-9 px-2 py-2"
-          >
-            <textarea
-              class="w-full my-1 p-2 outline-blue-600"
-              type="text"
-              placeholder="Tratamiento"
-              id="textTratamiento"
-              cols="30"
-              rows="6"
-            ></textarea>
+          <div id="tratamiento" class="w-full hidden">
+            <div
+              class="flex flex-col border-x border-b border-black items-start mx-1 md:mx-9 px-2 py-2"
+            >
+              <textarea
+                class="w-full my-1 p-2 outline-blue-600"
+                type="text"
+                placeholder="Tratamiento"
+                id="tratamiento"
+                name="tratamiento"
+                required
+                ngModel
+                cols="30"
+                rows="6"
+              ></textarea>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="flex flex-row justify-center my-2">
-        <button
-          (click)="guardarConsultaMedico()"
-          class="text-white bg-green-500 shadow-lg shadow-green-400/60 rounded-lg font-medium px-3 py-0.5 hover:bg-blue-700 hover:shadow-blue-900/60"
-        >
-          Actualizar Consulta Médica
-        </button>
-      </div>
+        <div class="flex flex-row justify-center my-2">
+          <button
+            type="submit"
+            class="text-white bg-green-500 shadow-lg shadow-green-400/60 rounded-lg font-medium px-3 py-0.5 hover:bg-blue-700 hover:shadow-blue-900/60"
+          >
+            Guardar Consulta
+          </button>
+        </div>
+      </form>
     </div>
     <div
       *ngIf="empleado.tipo == 'Enfermería'"
@@ -840,7 +880,7 @@
             type="submit"
             class="text-white bg-green-500 shadow-lg shadow-green-400/60 rounded-lg font-medium px-3 py-0.5 hover:bg-blue-700 hover:shadow-blue-900/60"
           >
-            Guardar Consulta Médica
+            Guardar Consulta
           </button>
         </div>
       </form>
