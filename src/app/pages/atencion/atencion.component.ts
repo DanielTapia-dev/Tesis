@@ -589,9 +589,9 @@ export class AtencionComponent implements OnInit {
     this.textObservacionDiagnostico = document.querySelector('#textObservacionDiagnostico');
     this.textTratamiento = document.querySelector('#textTratamiento');
 
-    if (this.selectCodigoCie10.value) {
+   /*  if (this.selectCodigoCie10.value) {
       this.selectCodigoCie10.value = null;
-    }
+    } */
 
     let consultaNueva = {
       id: this.idConsultaActual,
@@ -613,11 +613,14 @@ export class AtencionComponent implements OnInit {
       tratamiento: this.textTratamiento.value,
       codigo_cie10_per: this.selectCodigoCie10.value,
       id_cronologia_per: this.selectCronologia.value,
+      id_especialidad_per: this.empleado.id_especialidad_per,
+      id_sucursal_per: this.empleado.id_sucursal_per,
       id_condicion_per: this.selectCondicion.value,
       id_tipo_per: this.selectTipo.value,
       id_empleado_per: this.empleado.id,
       estado: true
     };
+
 
     console.log(consultaNueva);
     this.consultasService.putConsulta(consultaNueva).subscribe(resp => {
