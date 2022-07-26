@@ -44,4 +44,12 @@ export class ConsultasService {
       .set('auth-token', localStorage.getItem('token') || '');
     return this.http.put(url, formData, { headers });
   }
+
+  postConsultaMedico(formData: object) {
+    const url = `${this.baseUrl}consulta/crearConsultaMedico`;
+    const headers = new HttpHeaders()
+      .set('auth-token', localStorage.getItem('token') || '');
+
+    return this.http.post<any>(url, formData, { headers });
+  }
 }

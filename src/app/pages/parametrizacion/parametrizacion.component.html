@@ -1,0 +1,334 @@
+<div class="flex flex-row justify-center">
+  <div class="bg-white mt-2 rounded-lg border shadow-lg">
+    <h2 class="flex flex-row text-lg font-semibold justify-center mt-2">
+      Parametros para el funcionamiento del aplicativo
+    </h2>
+    <div class="flex flex-col justify-center">
+      <div class="flex flex-row justify-center py-2 mx-2">
+        <div class="border border-black rounded-xl p-2 justify-around">
+          <button
+            (click)="interfazSucursal()"
+            class="text-sm md:text-lg my-2 text-white bg-purple-500 shadow-lg mr-1 shadow-purple-400/60 rounded-lg font-medium px-3 py-0.5 hover:bg-blue-700 hover:shadow-blue-900/60"
+          >
+            Sucursales
+          </button>
+          <button
+            (click)="interfazCronologia()"
+            class="text-sm md:text-lg my-2 text-white bg-purple-500 shadow-lg mr-1 shadow-purple-400/60 rounded-lg font-medium px-3 py-0.5 hover:bg-blue-700 hover:shadow-blue-900/60"
+          >
+            Cronología
+          </button>
+          <button
+            (click)="interfazCondicion()"
+            class="text-sm md:text-lg my-2 text-white bg-purple-500 shadow-lg mr-1 shadow-purple-400/60 rounded-lg font-medium px-3 py-0.5 hover:bg-blue-700 hover:shadow-blue-900/60"
+          >
+            Condición
+          </button>
+          <button
+            (click)="interfazTipo()"
+            class="text-sm md:text-lg my-2 text-white bg-purple-500 shadow-lg mr-1 shadow-purple-400/60 rounded-lg font-medium px-3 py-0.5 hover:bg-blue-700 hover:shadow-blue-900/60"
+          >
+            Tipo
+          </button>
+        </div>
+      </div>
+      <div id="Sucursales" class="mx-2 hidden">
+        <div class="flex flex-col">
+          <div class="flex flex-row justify-center">
+            <form
+              (ngSubmit)="guardarSucursal()"
+              autocomplete="off"
+              [formGroup]="sucursalFormulario"
+            >
+              <div class="flex flex-row justify-center">
+                <p class="text-lg font-semibold">Sucursales</p>
+              </div>
+              <input
+                class="w-full my-1 p-2 outline-blue-600 border"
+                type="text"
+                formControlName="nombre"
+                required
+                placeholder="Nombre"
+              />
+              <input
+                class="w-full my-1 p-2 outline-blue-600 border"
+                type="text"
+                formControlName="direccion"
+                required
+                placeholder="Dirección"
+              />
+              <div class="flex flex-row justify-center">
+                <button
+                  type="submit"
+                  class="text-sm md:text-lg my-2 text-white bg-purple-500 shadow-lg mr-1 shadow-purple-400/60 rounded-lg font-medium px-3 py-0.5 hover:bg-blue-700 hover:shadow-blue-900/60"
+                >
+                  Guardar
+                </button>
+              </div>
+            </form>
+          </div>
+          <table
+            class="table-auto outline outline-2 outline-blue-900 mb-2 rounded-lg w-full bg-white"
+          >
+            <thead
+              class="text-blue-900 outline outline-2 outline-blue-900 rounded-t-lg"
+            >
+              <tr class="w-full mb-4 text-sm">
+                <th class="text-left">Nombre</th>
+                <th class="text-left">Dirección</th>
+                <th class="text-left">Opciones</th>
+              </tr>
+            </thead>
+            <tbody
+              class="bg-grey-light items-center"
+              *ngFor="
+                let sucursal of sucursales
+                  | paginate: { itemsPerPage: 10, currentPage: pageActual }
+              "
+            >
+              <tr class="text-sm">
+                <td class="my-2 mx-2">{{ sucursal.nombre }}</td>
+                <td class="mx-2">{{ sucursal.direccion }}</td>
+                <td class="py-2">
+                  <button
+                    class="text-white bg-purple-500 shadow-lg mx-1 shadow-purple-400/60 rounded-lg font-medium px-3 py-0.5 hover:bg-blue-700 hover:shadow-blue-900/60"
+                  >
+                    Seleccionar
+                  </button>
+                  <button
+                    *ngIf="sucursal.estado == true"
+                    class="text-white bg-green-500 shadow-lg mx-1 shadow-green-400/60 rounded-lg font-medium px-3 py-0.5 hover:bg-blue-700 hover:shadow-blue-900/60"
+                  >
+                    Desactivar
+                  </button>
+                  <button
+                    *ngIf="sucursal.estado == false"
+                    class="text-white bg-green-500 shadow-lg mx-1 shadow-green-400/60 rounded-lg font-medium px-3 py-0.5 hover:bg-blue-700 hover:shadow-blue-900/60"
+                  >
+                    Activar
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div id="Cronologias" class="mx-2 hidden">
+        <div class="flex flex-col">
+          <div class="flex flex-row justify-center">
+            <form
+              (ngSubmit)="guardarSucursal()"
+              autocomplete="off"
+              [formGroup]="cronologiaFormulario"
+            >
+              <div class="flex flex-row justify-center">
+                <p class="text-lg font-semibold">Cronologias</p>
+              </div>
+              <input
+                class="w-full my-1 p-2 outline-blue-600 border"
+                type="text"
+                formControlName="nombre"
+                required
+                placeholder="Nombre"
+              />
+              <div class="flex flex-row justify-center">
+                <button
+                  type="submit"
+                  class="text-sm md:text-lg my-2 text-white bg-purple-500 shadow-lg mr-1 shadow-purple-400/60 rounded-lg font-medium px-3 py-0.5 hover:bg-blue-700 hover:shadow-blue-900/60"
+                >
+                  Guardar
+                </button>
+              </div>
+            </form>
+          </div>
+          <table
+            class="table-auto outline outline-2 outline-blue-900 mb-2 rounded-lg w-full bg-white"
+          >
+            <thead
+              class="text-blue-900 outline outline-2 outline-blue-900 rounded-t-lg"
+            >
+              <tr class="w-full mb-4 text-sm">
+                <th class="text-left">Nombre</th>
+                <th class="text-left">Opciones</th>
+              </tr>
+            </thead>
+            <tbody
+              class="bg-grey-light items-center"
+              *ngFor="
+                let cronologia of cronologias
+                  | paginate: { itemsPerPage: 10, currentPage: pageActual }
+              "
+            >
+              <tr class="text-sm">
+                <td class="my-2 mx-2">{{ cronologia.nombre }}</td>
+                <td class="py-2">
+                  <button
+                    class="text-white bg-purple-500 shadow-lg mx-1 shadow-purple-400/60 rounded-lg font-medium px-3 py-0.5 hover:bg-blue-700 hover:shadow-blue-900/60"
+                  >
+                    Seleccionar
+                  </button>
+                  <button
+                    *ngIf="cronologia.estado == true"
+                    class="text-white bg-green-500 shadow-lg mx-1 shadow-green-400/60 rounded-lg font-medium px-3 py-0.5 hover:bg-blue-700 hover:shadow-blue-900/60"
+                  >
+                    Desactivar
+                  </button>
+                  <button
+                    *ngIf="cronologia.estado == false"
+                    class="text-white bg-green-500 shadow-lg mx-1 shadow-green-400/60 rounded-lg font-medium px-3 py-0.5 hover:bg-blue-700 hover:shadow-blue-900/60"
+                  >
+                    Activar
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div id="Condiciones" class="mx-2 hidden">
+        <div class="flex flex-col">
+          <div class="flex flex-row justify-center">
+            <form
+              (ngSubmit)="guardarSucursal()"
+              autocomplete="off"
+              [formGroup]="condicionFormulario"
+            >
+              <div class="flex flex-row justify-center">
+                <p class="text-lg font-semibold">Condiciones</p>
+              </div>
+              <input
+                class="w-full my-1 p-2 outline-blue-600 border"
+                type="text"
+                formControlName="nombre"
+                required
+                placeholder="Nombre"
+              />
+              <div class="flex flex-row justify-center">
+                <button
+                  type="submit"
+                  class="text-sm md:text-lg my-2 text-white bg-purple-500 shadow-lg mr-1 shadow-purple-400/60 rounded-lg font-medium px-3 py-0.5 hover:bg-blue-700 hover:shadow-blue-900/60"
+                >
+                  Guardar
+                </button>
+              </div>
+            </form>
+          </div>
+          <table
+            class="table-auto outline outline-2 outline-blue-900 mb-2 rounded-lg w-full bg-white"
+          >
+            <thead
+              class="text-blue-900 outline outline-2 outline-blue-900 rounded-t-lg"
+            >
+              <tr class="w-full mb-4 text-sm">
+                <th class="text-left">Nombre</th>
+                <th class="text-left">Opciones</th>
+              </tr>
+            </thead>
+            <tbody
+              class="bg-grey-light items-center"
+              *ngFor="
+                let condicion of condiciones
+                  | paginate: { itemsPerPage: 10, currentPage: pageActual }
+              "
+            >
+              <tr class="text-sm">
+                <td class="my-2 mx-2">{{ condicion.nombre }}</td>
+                <td class="py-2">
+                  <button
+                    class="text-white bg-purple-500 shadow-lg mx-1 shadow-purple-400/60 rounded-lg font-medium px-3 py-0.5 hover:bg-blue-700 hover:shadow-blue-900/60"
+                  >
+                    Seleccionar
+                  </button>
+                  <button
+                    *ngIf="condicion.estado == true"
+                    class="text-white bg-green-500 shadow-lg mx-1 shadow-green-400/60 rounded-lg font-medium px-3 py-0.5 hover:bg-blue-700 hover:shadow-blue-900/60"
+                  >
+                    Desactivar
+                  </button>
+                  <button
+                    *ngIf="condicion.estado == false"
+                    class="text-white bg-green-500 shadow-lg mx-1 shadow-green-400/60 rounded-lg font-medium px-3 py-0.5 hover:bg-blue-700 hover:shadow-blue-900/60"
+                  >
+                    Activar
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div id="Tipo" class="mx-2 hidden">
+        <div class="flex flex-col">
+          <div class="flex flex-row justify-center">
+            <form
+              (ngSubmit)="guardarSucursal()"
+              autocomplete="off"
+              [formGroup]="tipoFormulario"
+            >
+              <div class="flex flex-row justify-center">
+                <p class="text-lg font-semibold">Tipos</p>
+              </div>
+              <input
+                class="w-full my-1 p-2 outline-blue-600 border"
+                type="text"
+                formControlName="nombre"
+                required
+                placeholder="Nombre"
+              />
+              <div class="flex flex-row justify-center">
+                <button
+                  type="submit"
+                  class="text-sm md:text-lg my-2 text-white bg-purple-500 shadow-lg mr-1 shadow-purple-400/60 rounded-lg font-medium px-3 py-0.5 hover:bg-blue-700 hover:shadow-blue-900/60"
+                >
+                  Guardar
+                </button>
+              </div>
+            </form>
+          </div>
+          <table
+            class="table-auto outline outline-2 outline-blue-900 mb-2 rounded-lg w-full bg-white"
+          >
+            <thead
+              class="text-blue-900 outline outline-2 outline-blue-900 rounded-t-lg"
+            >
+              <tr class="w-full mb-4 text-sm">
+                <th class="text-left">Nombre</th>
+                <th class="text-left">Opciones</th>
+              </tr>
+            </thead>
+            <tbody
+              class="bg-grey-light items-center"
+              *ngFor="
+                let tipo of tipos
+                  | paginate: { itemsPerPage: 10, currentPage: pageActual }
+              "
+            >
+              <tr class="text-sm">
+                <td class="my-2 mx-2">{{ tipo.nombre }}</td>
+                <td class="py-2">
+                  <button
+                    class="text-white bg-purple-500 shadow-lg mx-1 shadow-purple-400/60 rounded-lg font-medium px-3 py-0.5 hover:bg-blue-700 hover:shadow-blue-900/60"
+                  >
+                    Seleccionar
+                  </button>
+                  <button
+                    *ngIf="tipo.estado == true"
+                    class="text-white bg-green-500 shadow-lg mx-1 shadow-green-400/60 rounded-lg font-medium px-3 py-0.5 hover:bg-blue-700 hover:shadow-blue-900/60"
+                  >
+                    Desactivar
+                  </button>
+                  <button
+                    *ngIf="tipo.estado == false"
+                    class="text-white bg-green-500 shadow-lg mx-1 shadow-green-400/60 rounded-lg font-medium px-3 py-0.5 hover:bg-blue-700 hover:shadow-blue-900/60"
+                  >
+                    Activar
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

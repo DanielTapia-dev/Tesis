@@ -14,6 +14,9 @@ import { ConsultasComponent } from './consultas/consultas.component';
 import { CondicionComponent } from './condicion/condicion.component';
 import { CronologiaComponent } from './cronologia/cronologia.component';
 import { TipoComponent } from './tipo/tipo.component';
+import { DiagnosticosComponent } from './diagnosticos/diagnosticos.component';
+import { ParametrizacionComponent } from './parametrizacion/parametrizacion.component';
+import { SolicitudesComponent } from './solicitudes/solicitudes.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +30,10 @@ import { TipoComponent } from './tipo/tipo.component';
     ConsultasComponent,
     CondicionComponent,
     CronologiaComponent,
-    TipoComponent
+    TipoComponent,
+    DiagnosticosComponent,
+    ParametrizacionComponent,
+    SolicitudesComponent
   ],
   imports: [
     CommonModule,

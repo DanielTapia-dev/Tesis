@@ -12,6 +12,15 @@ export class DiagnosticosService {
 
   private baseUrl: string = environment.baseUrl;
 
+  getDiagnosticos() {
+    const url = `${this.baseUrl}diagnosticos/getDiagnosticosCompletos`;
+    console.log(url);
+    const headers = new HttpHeaders()
+      .set('auth-token', localStorage.getItem('token') || '');
+
+    return this.http.get<Diagnostico>(url, { headers });
+  }
+
   getDescripcion(id: string) {
     const url = `${this.baseUrl}diagnosticos/getDescripcion/${id}`;
     console.log(url);

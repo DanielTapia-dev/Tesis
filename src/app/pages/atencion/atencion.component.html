@@ -312,6 +312,7 @@
                 class="w-full my-1 p-2 outline-blue-600"
                 type="text"
                 placeholder="Enfermedad actual"
+                ngModel
                 id="enfermedad_actual"
                 name="enfermedad_actual"
                 required
@@ -575,7 +576,7 @@
                         type="text"
                         placeholder="Descripción"
                         id="textEnfermedadActualDiagnostico"
-                        cols="30"
+                        cols="80"
                         readonly
                         rows="6"
                       ></textarea>
@@ -633,6 +634,7 @@
                   </div>
                 </div>
                 <div class="flex flex-col w-full md:w-1/2">
+                  <p class="text-sm">Cronología:</p>
                   <select
                     id="id_cronologia_per"
                     name="id_cronologia_per"
@@ -647,6 +649,7 @@
                       {{ cronologia.nombre }}
                     </option>
                   </select>
+                  <p class="text-sm">Condición:</p>
                   <select
                     id="id_condicion_per"
                     name="id_condicion_per"
@@ -661,6 +664,7 @@
                       {{ condicion.nombre }}
                     </option>
                   </select>
+                  <p class="text-sm">Tipo:</p>
                   <select
                     id="id_tipo_per"
                     name="id_tipo_per"

@@ -9,9 +9,12 @@ import { CondicionComponent } from './condicion/condicion.component';
 import { ConsultasComponent } from './consultas/consultas.component';
 import { CronologiaComponent } from './cronologia/cronologia.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { DiagnosticosComponent } from './diagnosticos/diagnosticos.component';
 import { EmpleadosComponent } from './empleados/empleados.component';
 import { HistorialesComponent } from './historiales/historiales.component';
 import { MainComponent } from './main/main.component';
+import { ParametrizacionComponent } from './parametrizacion/parametrizacion.component';
+import { SolicitudesComponent } from './solicitudes/solicitudes.component';
 import { TipoComponent } from './tipo/tipo.component';
 
 const routes: Routes = [
@@ -34,6 +37,30 @@ const routes: Routes = [
       {
         path: 'empleados',
         component: EmpleadosComponent,
+        canActivate: [ValidarAdminGuard, ValidarTokenGuard],
+        canLoad: [ValidarAdminGuard, ValidarTokenGuard]
+      },
+      {
+        path: 'consultas',
+        component: ConsultasComponent,
+        canActivate: [ValidarAdminGuard, ValidarTokenGuard],
+        canLoad: [ValidarAdminGuard, ValidarTokenGuard]
+      },
+      {
+        path: 'solicitudes',
+        component: SolicitudesComponent,
+        canActivate: [ValidarAdminGuard, ValidarTokenGuard],
+        canLoad: [ValidarAdminGuard, ValidarTokenGuard]
+      },
+      {
+        path: 'diagnosticos',
+        component: DiagnosticosComponent,
+        canActivate: [ValidarAdminGuard, ValidarTokenGuard],
+        canLoad: [ValidarAdminGuard, ValidarTokenGuard]
+      },
+      {
+        path: 'parametrizacion',
+        component: ParametrizacionComponent,
         canActivate: [ValidarAdminGuard, ValidarTokenGuard],
         canLoad: [ValidarAdminGuard, ValidarTokenGuard]
       },

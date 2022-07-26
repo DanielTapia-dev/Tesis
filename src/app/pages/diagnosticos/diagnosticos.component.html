@@ -1,0 +1,65 @@
+<div class="flex flex-row justify-center">
+  <div class="flex flex-col justify-center items-center">
+    <p class="text-lg font-semibold mb-3">Carga masiva de diagnósticos CIE10</p>
+    <input class="mb-2" type="file" />
+    <div class="border border-black p-1 bg-yellow-200">
+      <p class="">
+        Los diagnósticos que se suban a la aplicación serán agregados a la lista
+        de códigos existente, si desea dar de baja códigos para los médicos
+        desactívelos desde la tabla inferior
+      </p>
+    </div>
+    <div class="mt-2 pr-4 w-full">
+      <table
+        class="table-auto outline outline-2 outline-blue-900 mx-2 rounded-lg w-full bg-white"
+      >
+        <thead
+          class="text-blue-900 outline outline-2 outline-blue-900 rounded-t-lg"
+        >
+          <tr class="w-full mb-4 text-sm">
+            <th class="text-left">CIE10</th>
+            <th class="text-left">Descripción</th>
+            <th class="text-left">Opciones</th>
+          </tr>
+        </thead>
+        <tbody
+          class="bg-grey-light items-center"
+          *ngFor="
+            let codigo of codigos
+              | paginate: { itemsPerPage: 10, currentPage: pageActual }
+          "
+        >
+          <tr class="text-sm">
+            <td class="my-2">{{ codigo.codigo_cie10 }}</td>
+            <td>{{ codigo.descripcion }}</td>
+            <td class="py-2">
+              <button
+                *ngIf="codigo.estado == true"
+                class="text-white bg-green-500 shadow-lg shadow-green-400/60 rounded-lg font-medium px-3 py-0.5 hover:bg-blue-700 hover:shadow-blue-900/60"
+              >
+                Desactivar
+              </button>
+              <button
+                *ngIf="codigo.estado == false"
+                class="text-white bg-green-500 shadow-lg shadow-green-400/60 rounded-lg font-medium px-3 py-0.5 hover:bg-blue-700 hover:shadow-blue-900/60"
+              >
+                Activar
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="text-sm" style="display: flex; justify-content: center">
+        <pagination-controls
+          (pageChange)="pageActual = $event"
+          [maxSize]="20"
+          [autoHide]="true"
+          [responsive]="true"
+          previousLabel="Anterior"
+          nextLabel="Siguiente"
+        >
+        </pagination-controls>
+      </div>
+    </div>
+  </div>
+</div>
