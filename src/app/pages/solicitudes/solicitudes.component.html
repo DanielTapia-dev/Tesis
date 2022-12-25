@@ -1,3 +1,6 @@
+<div class="flex flex-row justify-center mt-3">
+  <h1 class="text-2xl font-semibold text-center">Solicitudes para dar de baja consultas médicas</h1>
+</div>
 <div class="p-8 rounded-md w-full">
   <div class="bg-white px-8 rounded-lg shadow-md shadow-gray-500">
     <div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
@@ -33,7 +36,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
+            <tr *ngFor="let solicitud of solicitudes  | paginate: { itemsPerPage: 5, currentPage: pageActual }">
               <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                 <div class="flex items-center">
                   <div class="">
@@ -43,99 +46,28 @@
               </td>
               <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                 <p class="text-gray-900 whitespace-no-wrap">
-                  25 de junio de 2022 23:53
+                  {{solicitud.fechasolicitud}}
                 </p>
               </td>
               <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                 <p class="text-gray-900 whitespace-no-wrap">
-                  23 de julio de 2022 22:34
+                  {{solicitud.fechaconsulta}}
                 </p>
               </td>
               <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                 <p class="text-gray-900 whitespace-no-wrap">
-                  MOLINA CAIZA NANCY PAOLA
+                  {{solicitud.nombre}}
                 </p>
               </td>
               <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                <span
-                  class="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight"
-                >
-                  <span
-                    aria-hidden
-                    class="absolute inset-0 bg-green-200 opacity-50 rounded-full"
-                  ></span>
-                  <span class="relative">Dar de baja</span>
-                </span>
-              </td>
-            </tr>
-            <tr>
-              <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                <div class="flex items-center">
-                  <div class="">
-                    <p class="text-gray-900 whitespace-no-wrap">1</p>
-                  </div>
-                </div>
-              </td>
-              <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                <p class="text-gray-900 whitespace-no-wrap">
-                  25 de junio de 2022 23:53
-                </p>
-              </td>
-              <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                <p class="text-gray-900 whitespace-no-wrap">
-                  23 de julio de 2022 22:34
-                </p>
-              </td>
-              <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                <p class="text-gray-900 whitespace-no-wrap">
-                  TARCO CALAPAQUI MARITZA DE LAS MERCEDES
-                </p>
-              </td>
-              <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                <span
-                  class="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight"
-                >
-                  <span
-                    aria-hidden
-                    class="absolute inset-0 bg-green-200 opacity-50 rounded-full"
-                  ></span>
-                  <span class="relative">Dar de baja</span>
-                </span>
-              </td>
-            </tr>
-            <tr>
-              <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                <div class="flex items-center">
-                  <div class="">
-                    <p class="text-gray-900 whitespace-no-wrap">1</p>
-                  </div>
-                </div>
-              </td>
-              <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                <p class="text-gray-900 whitespace-no-wrap">
-                  5 de febrero de 2022 23:53
-                </p>
-              </td>
-              <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                <p class="text-gray-900 whitespace-no-wrap">
-                  12 de enero de 2022 22:34
-                </p>
-              </td>
-              <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                <p class="text-gray-900 whitespace-no-wrap">
-                  CANDO ALVAREZ SANDY MADELEN
-                </p>
-              </td>
-              <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                <span
-                  class="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight"
-                >
-                  <span
-                    aria-hidden
-                    class="absolute inset-0 bg-green-200 opacity-50 rounded-full"
-                  ></span>
-                  <span class="relative">Dar de baja</span>
-                </span>
+                <button *ngIf="!solicitud.estado" (click)="activar(solicitud)"
+                  class="bg-indigo-500 text-white px-4 py-2 border rounded-md hover:bg-white hover:border-indigo-500 hover:text-black ">
+                  Activar
+                </button>
+                <button *ngIf="solicitud.estado" (click)="desactivar(solicitud)"
+                  class="bg-red-500 text-white px-4 py-2 border rounded-md hover:bg-white hover:border-indigo-500 hover:text-black ">
+                  Desactivar
+                </button>
               </td>
             </tr>
           </tbody>
@@ -143,7 +75,7 @@
         <div class="text-sm" style="display: flex; justify-content: center">
           <pagination-controls
             (pageChange)="pageActual = $event"
-            [maxSize]="20"
+            [maxSize]="5"
             [autoHide]="true"
             [responsive]="true"
             previousLabel="Anterior"

@@ -303,7 +303,6 @@
                 class="w-full my-1 p-2 outline-blue-600"
                 type="text"
                 ngModel
-                id="motivo_atencion"
                 name="motivo_atencion"
                 required
                 placeholder="Motivo de atención"
@@ -313,8 +312,8 @@
                 type="text"
                 placeholder="Enfermedad actual"
                 ngModel
-                id="enfermedad_actual"
-                name="enfermedad_actual"
+                id="textEnfermedadActual"
+                name="textEnfermedadActual"
                 required
                 cols="30"
                 rows="6"
@@ -329,8 +328,8 @@
                 class="w-full my-1 p-2 outline-blue-600"
                 type="text"
                 placeholder="Antecedentes"
-                id="antecedentes"
-                name="antecedentes"
+                id="textAntecedentes"
+                name="textAntecedentes"
                 required
                 ngModel
                 cols="30"
@@ -486,8 +485,8 @@
                 class="w-full my-1 p-2 outline-blue-600"
                 type="text"
                 placeholder="Examen Físico"
-                id="examen_fisico"
-                name="examen_fisico"
+                id="textExamenFisico"
+                name="textExamenFisico"
                 required
                 ngModel
                 cols="30"
@@ -497,8 +496,8 @@
                 class="w-full my-1 p-2 outline-blue-600"
                 type="text"
                 placeholder="Resultados de examenes"
-                id="resultado_examenes"
-                name="resultado_examenes"
+                id="textResultadosExamenes"
+                name="textResultadosExamenes"
                 required
                 ngModel
                 cols="30"
@@ -636,8 +635,8 @@
                 <div class="flex flex-col w-full md:w-1/2">
                   <p class="text-sm">Cronología:</p>
                   <select
-                    id="id_cronologia_per"
-                    name="id_cronologia_per"
+                    id="selectCronologia"
+                    name="selectCronologia"
                     required
                     ngModel
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg mb-2 focus:ring-blue-500 focus:border-blue-500 w-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -651,8 +650,8 @@
                   </select>
                   <p class="text-sm">Condición:</p>
                   <select
-                    id="id_condicion_per"
-                    name="id_condicion_per"
+                    id="selectCondicion"
+                    name="selectCondicion"
                     required
                     ngModel
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg mb-2 focus:ring-blue-500 focus:border-blue-500 w-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -666,8 +665,8 @@
                   </select>
                   <p class="text-sm">Tipo:</p>
                   <select
-                    id="id_tipo_per"
-                    name="id_tipo_per"
+                    id="selectTipo"
+                    name="selectTipo"
                     required
                     ngModel
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg mb-2 focus:ring-blue-500 focus:border-blue-500 w-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -696,8 +695,8 @@
                 class="w-full my-1 p-2 outline-blue-600"
                 type="text"
                 placeholder="Tratamiento"
-                id="tratamiento"
-                name="tratamiento"
+                id="textTratamiento"
+                name="textTratamiento"
                 required
                 ngModel
                 cols="30"
@@ -939,7 +938,7 @@
                   Cargar Consulta
                 </button>
                 <button
-                  (click)="peticionBorrar(consulta.id)"
+                  (click)="peticionBorrar(consulta.id, consulta.fecha)"
                   class="text-black bg-red-300 shadow-lg shadow-red-300/50 rounded-lg font-medium px-3 py-0.5 hover:bg-purple-400 hover:shadow-purple-900/60"
                 >
                   Borrar

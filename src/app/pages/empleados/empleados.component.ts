@@ -36,6 +36,9 @@ export class EmpleadosComponent implements OnInit {
   imagenSubir: any = '';
   especialidades: EspecialidadModel[] = [];
   sucursales: SucursalModel[] = [];
+  pageActual: any = 1;
+  maxPage: number = 30;
+  solicitudes: any = [];
 
   //Objetos HTML
   inputPass: any;
@@ -58,6 +61,7 @@ export class EmpleadosComponent implements OnInit {
     //Cargando listas iniciales para nuevo empleado
     this.cargarEspecialidad();
     this.cargarSucursales();
+    this.cargarEmpleados();
   }
 
   copiarPass() {
@@ -117,4 +121,36 @@ export class EmpleadosComponent implements OnInit {
   }
 
   nuevoEmpleado() { }
+
+  cargarEmpleados() {
+    this.empleadosService.getEmpleados().subscribe(res => {
+      console.log(res);
+      this.solicitudes = res;
+      console.log(this.solicitudes[1]);
+    })
+  }
+
+  activar(solicitud: any) {
+    const formData = {
+      estado: true,
+      id: solicitud.id
+    };
+    console.log(formData);
+    this.empleadosService.cambiarEstadoEmpleado(formData).subscribe(res => {
+      const orderIndex = this.solicitudes.indexOf(solicitud);
+      this.solicitudes[orderIndex].estado = true;
+      console.log(orderIndex);
+    });
+  }
+
+  desactivar(solicitud: any) {
+    const formData = {
+      estado: false,
+      id: solicitud.id
+    };
+    this.empleadosService.cambiarEstadoEmpleado(formData).subscribe(res => {
+      const orderIndex = this.solicitudes.indexOf(solicitud);
+      this.solicitudes[orderIndex].estado = false;
+    });
+  }
 }

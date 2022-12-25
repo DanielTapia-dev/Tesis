@@ -20,4 +20,21 @@ export class EmpleadosService {
     return this.http.post<any>(url, formData, { headers });
   }
 
+  cambiarEstadoEmpleado(formData: any) {
+    const url = `${this.baseUrl}empleados/cambiarEstadoEmpleado`;
+    const headers = new HttpHeaders()
+      .set('auth-token', localStorage.getItem('token') || '');
+
+    return this.http.post<any>(url, formData, { headers });
+  }
+
+
+  getEmpleados() {
+    const url = `${this.baseUrl}empleados/`;
+    const headers = new HttpHeaders()
+      .set('auth-token', localStorage.getItem('token') || '');
+
+    return this.http.get<any>(url, { headers });
+  }
+
 }

@@ -142,6 +142,7 @@ export class AtencionComponent implements OnInit {
     this.btnExamenFisico = document.querySelector('#btnExamenFisico');
     this.btnDiagnostico = document.querySelector('#btnDiagnostico');
     this.btnTratamiento = document.querySelector('#btnTratamiento');
+    this.inputMotivoConsulta = document.querySelector('#inputMotivoConsulta');
   }
 
   cargarClientes() {
@@ -321,6 +322,7 @@ export class AtencionComponent implements OnInit {
       } else {
         this.clienteSeleccionado = cliente;
         this.historiaSeleccionada = resp[0];
+        console.log(resp[0]);
         if (this.historiaSeleccionada.genero == 1) {
           this.historiaSeleccionada = {
             ...this.historiaSeleccionada,
@@ -334,6 +336,7 @@ export class AtencionComponent implements OnInit {
         }
         this.historiaBasePropia.grupo_sanguineo = '';
         this.historiasService.getHistoriasPorId(ciu_per).subscribe(respHistoriaPropia => {
+          console.log(respHistoriaPropia);
           if (respHistoriaPropia.length == 0) {
             const formData = {
               ciu_per: ciu_per,
@@ -342,7 +345,8 @@ export class AtencionComponent implements OnInit {
               discapacidad: 'NO',
               orientacion_sexual: 'Heterosexual',
               grupo_sanguineo: 'NN',
-              fecha_nacimiento: this.historiaSeleccionada.fechanac
+              fecha_nacimiento: this.historiaSeleccionada.fechanac,
+              nombre: this.clienteSeleccionado.descrip
             }
             this.historiasService.postHistoria(formData).subscribe(respHistoria => {
               this.historiaBasePropia = respHistoria;
@@ -474,6 +478,8 @@ export class AtencionComponent implements OnInit {
     try {
       /* Motivo de consulta */
       this.inputMotivoConsulta = document.querySelector('#inputMotivoConsulta');
+      console.log('+++++++++++++++++++++++++++++++++++++');
+      console.log(this.inputMotivoConsulta);
       this.textEnfermedadActual = document.querySelector('#textEnfermedadActual');
 
       /* Antecedentes */
@@ -630,7 +636,7 @@ export class AtencionComponent implements OnInit {
     })
   }
 
-  peticionBorrar(idConsulta: number) {
+  peticionBorrar(idConsulta: number, fecha: any) {
     Swal.fire({
       title: 'La solicitud de borrar debe ser aprobada por un administrador.',
       text: '¿Esta seguro de enviar la solicitud?',
@@ -638,11 +644,30 @@ export class AtencionComponent implements OnInit {
       confirmButtonText: 'Enviar',
       denyButtonText: `Cancelar`,
     }).then((result) => {
+      const formaData = {
+        fecha: fecha,
+        id_consulta_per: idConsulta
+      }
       // Read more about isConfirmed, isDenied below 
       if (result.isConfirmed) {
-        Swal.fire({
-          text: 'La solicitud fue enviada, si es aprobada la consulta dejará de aparecer en el historial.',
-          icon: 'success'
+        this.consultasService.getSolicitud(idConsulta).subscribe(res => {
+          if (res.length == 0) {
+            this.consultasService.postSolicitud(formaData).subscribe(res => {
+              Swal.fire({
+                text: 'La solicitud fue enviada, si es aprobada la consulta dejará de aparecer en el historial.',
+                icon: 'success'
+              })
+            }, err => {
+              Swal.fire({
+                text: 'La solicitud no pudo ser enviada',
+                icon: 'error'
+              })
+            });
+          }
+          Swal.fire({
+            text: 'La solicitud ya existe, por favor contacte con soporte.',
+            icon: 'info'
+          })
         })
       } else if (result.isDenied) {
         this.cargarHistoria(this.ciuCliente, this.cliente);
@@ -894,10 +919,8 @@ export class AtencionComponent implements OnInit {
 
   cargarConsultas() {
     this.fechaConsulta = '';
-    console.log('Aqui se da');
     this.consultasService.getConsultas(this.historiaBasePropia.id).subscribe(resp => {
       this.consultas = resp;
-      console.log(resp);
     });
   }
 
@@ -919,7 +942,7 @@ export class AtencionComponent implements OnInit {
 
     /* Tratamiento */
     this.textTratamiento = document.querySelector('#textTratamiento');
-
+    console.log(consulta.motivo_atencion);
     /* Asignando valores a los inputs o text */
     this.inputMotivoConsulta.value = consulta.motivo_atencion;
     this.textEnfermedadActual.value = consulta.enfermedad_actual;
@@ -928,7 +951,7 @@ export class AtencionComponent implements OnInit {
     this.textResultadosExamenes.value = consulta.resultados_examenes;
     this.textTratamiento.value = consulta.tratamiento;
 
-    console.log(consulta.tratamiento);
+    
 
     /* Diagnostico */
     this.selectCronologia = document.querySelector('#selectCronologia');

@@ -226,7 +226,8 @@ export class HistorialesComponent implements OnInit {
               discapacidad: 'NO',
               orientacion_sexual: 'Heterosexual',
               grupo_sanguineo: 'NN',
-              fecha_nacimiento: this.historiaSeleccionada.fechanac
+              fecha_nacimiento: this.historiaSeleccionada.fechanac,
+              nombre: this.clienteSeleccionado.descrip
             }
             this.historiasService.postHistoria(formData).subscribe(respHistoria => {
               this.historiaBasePropia = respHistoria;
@@ -255,7 +256,7 @@ export class HistorialesComponent implements OnInit {
     })
   }
 
-  peticionBorrar(idConsulta: number) {
+  peticionBorrar(idConsulta: number, fecha: any) {
     Swal.fire({
       title: `La solicitud de borrar debe ser aprobada por un administrador.`,
       text: '¿Esta seguro de enviar la solicitud?',
@@ -263,11 +264,29 @@ export class HistorialesComponent implements OnInit {
       confirmButtonText: 'Enviar',
       denyButtonText: `Cancelar`,
     }).then((result) => {
-      // Read more about isConfirmed, isDenied below 
+      const formaData = {
+        fecha: fecha,
+        id_consulta_per: idConsulta
+      }
       if (result.isConfirmed) {
-        Swal.fire({
-          text: 'La solicitud fue enviada, si es aprobada la consulta dejará de aparecer en el historial.',
-          icon: 'success'
+        this.consultasService.getSolicitud(idConsulta).subscribe(res => {
+          if (res.length == 0) {
+            this.consultasService.postSolicitud(formaData).subscribe(res => {
+              Swal.fire({
+                text: 'La solicitud fue enviada, si es aprobada la consulta dejará de aparecer en el historial.',
+                icon: 'success'
+              })
+            }, err => {
+              Swal.fire({
+                text: 'La solicitud no pudo ser enviada',
+                icon: 'error'
+              })
+            });
+          }
+          Swal.fire({
+            text: 'La solicitud ya existe, por favor contacte con soporte.',
+            icon: 'info'
+          })
         })
       } else if (result.isDenied) {
         this.cargarHistoria(this.ciuCliente, this.cliente);

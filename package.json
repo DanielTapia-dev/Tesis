@@ -11,6 +11,7 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "~13.2.2",
+    "@angular/cli": "^14.1.0",
     "@angular/common": "~13.2.2",
     "@angular/compiler": "~13.2.2",
     "@angular/core": "~13.2.2",
@@ -18,7 +19,9 @@
     "@angular/platform-browser": "~13.2.2",
     "@angular/platform-browser-dynamic": "~13.2.2",
     "@angular/router": "~13.2.2",
+    "@angular/service-worker": "~13.2.2",
     "@ngneat/tailwind": "^7.0.3",
+    "@schematics/angular": "^14.1.0",
     "moment": "^2.29.3",
     "moment-timezone": "^0.5.34",
     "ngx-pagination": "^5.1.1",

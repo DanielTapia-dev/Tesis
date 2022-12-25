@@ -52,4 +52,34 @@ export class ConsultasService {
 
     return this.http.post<any>(url, formData, { headers });
   }
+
+  getSolicitud(id: number) {
+    const url = `${this.baseUrl}consulta/obtenerSolicitud/${id}`;
+    const headers = new HttpHeaders()
+      .set('auth-token', localStorage.getItem('token') || '');
+    return this.http.get<any>(url, { headers });
+  }
+
+  getSolicitudes() {
+    const url = `${this.baseUrl}consulta/obtenerSolicitudes`;
+    const headers = new HttpHeaders()
+      .set('auth-token', localStorage.getItem('token') || '');
+
+    return this.http.get<any>(url, { headers });
+  }
+
+  cambiarEstadoConsulta(formData: object) {
+    const url = `${this.baseUrl}consulta/cambiarEstadoConsulta`;
+    const headers = new HttpHeaders()
+      .set('auth-token', localStorage.getItem('token') || '');
+    return this.http.put(url, formData, { headers });
+  }
+
+  postSolicitud(formData: object) {
+    const url = `${this.baseUrl}consulta/crearSolicitudBorrado`;
+    const headers = new HttpHeaders()
+      .set('auth-token', localStorage.getItem('token') || '');
+    return this.http.post<any>(url, formData, { headers });
+  }
 }
+
