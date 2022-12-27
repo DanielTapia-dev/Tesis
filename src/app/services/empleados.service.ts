@@ -20,6 +20,14 @@ export class EmpleadosService {
     return this.http.post<any>(url, formData, { headers });
   }
 
+  putEmpleado(formData: any) {
+    const url = `${this.baseUrl}empleados`;
+    const headers = new HttpHeaders()
+      .set('auth-token', localStorage.getItem('token') || '');
+
+    return this.http.put<any>(url, formData, { headers });
+  }
+
   cambiarEstadoEmpleado(formData: any) {
     const url = `${this.baseUrl}empleados/cambiarEstadoEmpleado`;
     const headers = new HttpHeaders()
