@@ -337,6 +337,7 @@ export class AtencionComponent implements OnInit {
         this.historiaBasePropia.grupo_sanguineo = '';
         this.historiasService.getHistoriasPorId(ciu_per).subscribe(respHistoriaPropia => {
           console.log(respHistoriaPropia);
+          console.log(this.clienteSeleccionado);
           if (respHistoriaPropia.length == 0) {
             const formData = {
               ciu_per: ciu_per,
@@ -555,7 +556,7 @@ export class AtencionComponent implements OnInit {
     }
   }
 
-  guardarConsultaMedico() {
+  guardarConsultaMedicoActualizar() {
 
     console.log(this.idConsultaActual);
     /* Motivo de consulta */
@@ -777,36 +778,41 @@ export class AtencionComponent implements OnInit {
   }
 
   GuardarConsultaMedico(formularioMedico: NgForm) {
-    let formConsulta = {};
-    if (this.checkCodigoCie10.checked) {
-      formConsulta = {
-        ...formularioMedico.value,
-        imc: this.inputImc.value,
-        id_historia_per: this.historiaBasePropia.id,
-        id_empleado_per: this.empleado.id,
-        id_especialidad_per: this.empleado.id_especialidad_per,
-        id_sucursal_per: this.empleado.id_sucursal_per,
-        codigo_cie10_per: this.selectCodigoCie10.value
+    if (this.idConsultaActual) {
+      this.guardarConsultaMedicoActualizar();
+    }else {
+      let formConsulta = {};
+      if (this.checkCodigoCie10.checked) {
+        formConsulta = {
+          ...formularioMedico.value,
+          imc: this.inputImc.value,
+          id_historia_per: this.historiaBasePropia.id,
+          id_empleado_per: this.empleado.id,
+          id_especialidad_per: this.empleado.id_especialidad_per,
+          id_sucursal_per: this.empleado.id_sucursal_per,
+          codigo_cie10_per: this.selectCodigoCie10.value
+        }
+      } else {
+        formConsulta = {
+          ...formularioMedico.value,
+          imc: this.inputImc.value,
+          id_historia_per: this.historiaBasePropia.id,
+          id_empleado_per: this.empleado.id,
+          id_especialidad_per: this.empleado.id_especialidad_per,
+          id_sucursal_per: this.empleado.id_sucursal_per,
+          codigo_cie10_per: this.selectDescripcionCie10.value
+        }
       }
-    } else {
-      formConsulta = {
-        ...formularioMedico.value,
-        imc: this.inputImc.value,
-        id_historia_per: this.historiaBasePropia.id,
-        id_empleado_per: this.empleado.id,
-        id_especialidad_per: this.empleado.id_especialidad_per,
-        id_sucursal_per: this.empleado.id_sucursal_per,
-        codigo_cie10_per: this.selectDescripcionCie10.value
-      }
+      console.log(formConsulta);
+      this.consultasService.postConsultaMedico(formConsulta).subscribe(resp => {
+        Swal.fire('Se agrego correctamente la consulta médica', '', 'success');
+        this.encerarInputs();
+        this.encerarTextos();
+      }, error => {
+        Swal.fire('Los datos de la consulta no estan completos', '', 'error');
+        console.log(error);
+      });
     }
-    console.log(formConsulta);
-    this.consultasService.postConsultaMedico(formConsulta).subscribe(resp => {
-      Swal.fire('Se agrego correctamente la consulta médica', '', 'success');
-      this.encerarInputs();
-      this.encerarTextos();
-    }, error => {
-      Swal.fire('Los datos de la consulta no estan completos', '', 'error');
-    });
   }
 
 

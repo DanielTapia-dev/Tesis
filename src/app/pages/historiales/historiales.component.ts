@@ -229,6 +229,7 @@ export class HistorialesComponent implements OnInit {
               fecha_nacimiento: this.historiaSeleccionada.fechanac,
               nombre: this.clienteSeleccionado.descrip
             }
+            console.log(formData);
             this.historiasService.postHistoria(formData).subscribe(respHistoria => {
               this.historiaBasePropia = respHistoria;
               this.selectTipoSangre = document.querySelector('#tipoSangre');
@@ -539,7 +540,7 @@ export class HistorialesComponent implements OnInit {
                     table: {
                       widths: ['*', '*', '*', '*', '*', '*', '*', '*', '*'],
                       body: [
-                        [{ text: 'Peso', style: 'subheader' }, { text: 'Talla', style: 'subheader' }, { text: 'IMC', style: 'subheader' }, { text: 'Pr. Sist', style: 'subheader' }, { text: 'Dist.', style: 'subheader' }, { text: 'Temp', style: 'subheader' }, { text: 'FC', style: 'subheader' }, { text: 'Sat', style: 'subheader' }, { text: 'FR', style: 'subheader' }],
+                        [{ text: 'Peso (kg)', style: 'subheader' }, { text: 'Talla (m)', style: 'subheader' }, { text: 'IMC', style: 'subheader' }, { text: 'Pr. Sist', style: 'subheader' }, { text: 'Dist.', style: 'subheader' }, { text: 'Temp (°C)', style: 'subheader' }, { text: 'FC', style: 'subheader' }, { text: 'Sat', style: 'subheader' }, { text: 'FR', style: 'subheader' }],
                         [{ text: this.consultaActual.talla, style: 'normal' }, { text: this.consultaActual.talla, style: 'normal' }, { text: this.consultaActual.imc, style: 'normal' }, { text: this.consultaActual.prsist, style: 'normal' }, { text: this.consultaActual.prdist, style: 'normal' }, { text: this.consultaActual.temp, style: 'normal' }, { text: this.consultaActual.fc, style: 'normal' }, { text: this.consultaActual.sat, style: 'normal' }, { text: this.consultaActual.fr, style: 'normal' }]
                       ]
                     },
@@ -850,7 +851,7 @@ export class HistorialesComponent implements OnInit {
                     table: {
                       widths: ['*', '*', '*', '*', '*', '*', '*', '*', '*'],
                       body: [
-                        [{ text: 'Peso', style: 'subheader' }, { text: 'Talla', style: 'subheader' }, { text: 'IMC', style: 'subheader' }, { text: 'Pr. Sist', style: 'subheader' }, { text: 'Dist.', style: 'subheader' }, { text: 'Temp', style: 'subheader' }, { text: 'FC', style: 'subheader' }, { text: 'Sat', style: 'subheader' }, { text: 'FR', style: 'subheader' }],
+                        [{ text: 'Peso (kg)', style: 'subheader' }, { text: 'Talla (m)', style: 'subheader' }, { text: 'IMC', style: 'subheader' }, { text: 'Pr. Sist', style: 'subheader' }, { text: 'Dist.', style: 'subheader' }, { text: 'Temp (°C)', style: 'subheader' }, { text: 'FC', style: 'subheader' }, { text: 'Sat', style: 'subheader' }, { text: 'FR', style: 'subheader' }],
                         [{ text: this.consultaActual.talla, style: 'normal' }, { text: this.consultaActual.talla, style: 'normal' }, { text: this.consultaActual.imc, style: 'normal' }, { text: this.consultaActual.prsist, style: 'normal' }, { text: this.consultaActual.prdist, style: 'normal' }, { text: this.consultaActual.temp, style: 'normal' }, { text: this.consultaActual.fc, style: 'normal' }, { text: this.consultaActual.sat, style: 'normal' }, { text: this.consultaActual.fr, style: 'normal' }]
                       ]
                     },

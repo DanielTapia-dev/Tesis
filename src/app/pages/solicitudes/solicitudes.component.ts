@@ -24,7 +24,7 @@ export class SolicitudesComponent implements OnInit {
     this.consultasService.getSolicitudes().subscribe(res => {
       console.log(res);
       this.solicitudes = res;
-      console.log(this.solicitudes[1]);
+      console.log(this.solicitudes);
     })
   }
 
